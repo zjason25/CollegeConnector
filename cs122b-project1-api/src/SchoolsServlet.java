@@ -47,7 +47,9 @@ public class SchoolsServlet extends HttpServlet {
             // Declare our statement
             Statement statement = conn.createStatement();
 
-            String query = "SELECT * from school";
+            String query = "SELECT * from school " +
+            "WHERE link_to_image != 'https://img-9gag-fun.9cache.com/photo/a7MDgKA_460s.jpg'" +
+            "ORDER BY rating DESC LIMIT 20";
 
             // Perform the query
             ResultSet rs = statement.executeQuery(query);
