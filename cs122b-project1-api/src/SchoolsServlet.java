@@ -47,7 +47,7 @@ public class SchoolsServlet extends HttpServlet {
             // Declare our statement
             Statement statement = conn.createStatement();
 
-            String query = "SELECT * from school";
+            String query = "SELECT * from school ORDER BY rating DESC";
 
             // Perform the query
             ResultSet rs = statement.executeQuery(query);
