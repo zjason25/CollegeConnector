@@ -22,7 +22,7 @@ We are using Tomcat10 to host our server and an EC2 t2_micro AWS Ubuntu instance
 
 
 ### Demo Link
-some link here
+Link to the [demo](https://youtu.be/RS0CCIPbIco)
 
 ### Contribution
 [Yanran Wang](https://github.com/yanranw1) was responsible for writing the frontend display and the java servelets, also crawling the web for college data.
