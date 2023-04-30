@@ -48,22 +48,36 @@ public class ShoppingCartServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // receives a http POST request: get parameter "item" from shopping-cart.html "input" field
-        String item = request.getParameter("item");
-        System.out.println(item);
+        String school_name = request.getParameter("name");
+        String genre = request.getParameter("genre");
+        String state = request.getParameter("state");
+        String school_id = request.getParameter("id");
+        String location_id = request.getParameter("location_id");
+        System.out.println(school_name);
         HttpSession session = request.getSession();
 
         // get the previous items in a ArrayList
         ArrayList<String> previousItems = (ArrayList<String>) session.getAttribute("previousItems");
+        //preference: stores college name and
+        ArrayList<ArrayList<String>> preference;
+
+        JsonObject schoolObject = new JsonObject();
+        schoolObject.addProperty("name", school_name);
+        schoolObject.addProperty("genre", genre);
+        schoolObject.addProperty("state", state);
+        schoolObject.addProperty("school_id", school_id);
+        schoolObject.addProperty("location_id", location_id);
         if (previousItems == null) {
             previousItems = new ArrayList<String>();
-            previousItems.add(item);
+
+            previousItems.add(schoolObject.toString());
             // storing the item for this session using a key-pair value
             session.setAttribute("previousItems", previousItems);
         } else {
             // prevent corrupted states through sharing under multi-threads
             // will only be executed by one thread at a time
             synchronized (previousItems) {
-                previousItems.add(item);
+                previousItems.add(schoolObject.toString());
             }
         }
 
@@ -72,6 +86,7 @@ public class ShoppingCartServlet extends HttpServlet {
 
         JsonArray previousItemsJsonArray = new JsonArray();
         previousItems.forEach(previousItemsJsonArray::add);
+        // a previousItems of array
         responseJsonObject.add("previousItems", previousItemsJsonArray);
 
         response.getWriter().write(responseJsonObject.toString());

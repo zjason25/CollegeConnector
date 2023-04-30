@@ -6,37 +6,41 @@ let cart = $("#cart");
  */
 function handleSessionData(resultDataString) {
     let resultDataJson = JSON.parse(resultDataString);
-
-    console.log("handle session response");
-    console.log(resultDataJson);
-    console.log(resultDataJson["sessionID"]);
-
-    // show the session information
-    $("#sessionID").text("Session ID: " + resultDataJson["sessionID"]);
-    $("#lastAccessTime").text("Last access time: " + resultDataJson["lastAccessTime"]);
-
-    // show cart information
+    // show wishlist information
     handleCartArray(resultDataJson["previousItems"]);
 }
 
 /**
- * Handle the items in item list
+ * Handle the items in wishlist
  * @param resultArray jsonObject, needs to be parsed to html
  */
 function handleCartArray(resultArray) {
     console.log(resultArray);
-    let item_list = $("#item_list");
+    let wishlist_items = $("#wishlist-items");
     // change it to html list
-    let res = "<ul>";
-    for (let i = 0; i < resultArray.length; i++) {
-        // each item will be in a bullet point
-        res += "<li>" + resultArray[i] + "</li>";
-    }
-    res += "</ul>";
 
-    // clear the old array and show the new array in the frontend
-    item_list.html("");
-    item_list.append(res);
+    for (let i = 0; i < resultArray.length; i++) {
+        let record = JSON.parse(resultArray[i])
+
+        // each item will be in a bullet point
+        let res = "<tr>";
+        res += "<th><a href=\"single-school.html?id=" + record["school_id"] + '">' + record["name"] + "</th>";
+        res += "<th>" + record["genre"] + "</th>";
+        res += "<th><a href=\"single-location.html?id=" + record["location_id"] + '">' + record["state"] + "</th>";
+        res += "<th><select name=\"page\" id=\"page\">\n" +
+            "        <option value=1>1</option>\n" +
+            "        <option value=2>2</option>\n" +
+            "        <option value=3>3</option>\n" +
+            "        <option value=4>4</option>\n" +
+            "        <option value=5>5</option>\n" +
+            "    </select></th>"
+        res += "<th><button>Remove</button></th>"
+        res += "</tr>";
+
+        // onclick='remove_school("name", "genre", "state")'
+        // display resulting html to appropriate wishlist-items field in shopping.html
+        wishlist_items.append(res);
+    }
 }
 
 /**

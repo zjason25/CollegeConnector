@@ -33,16 +33,27 @@ function getParameterByName(target) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-function addToCart(schoolName) {
-    console.log("clicked " + schoolName)
-    $.ajax("api/cart", {
-        method: "POST",
-        data: { item: schoolName },
-        success: schoolName => {window.alert(schoolName + "added to cart!")}
+function getInfo(school_name, schoolID) {
+    console.log("clicked " + school_name)
+    $.ajax("api/single-school", {
+            method: "GET",
+            data: {id: schoolID, name: school_name},
+            success: resultData => {
+                console.log(resultData[0]["school_name"] + " " + resultData[0]["genre"] + " " + resultData[0]["state"])
+                window.alert(resultData[0]["school_name"] + " added to wishlist!")
+                addToCart(resultData)
+            }
         }
     );
 }
 
+function addToCart(DataJsonArray) {
+    $.ajax("api/cart", {
+            method: "POST",
+            data: {name: DataJsonArray[0]["school_name"], genre: DataJsonArray[0]["genre"], state: DataJsonArray[0]["state"], id: DataJsonArray[0]["school_id"], location_id: DataJsonArray[0]["location_id"] },
+        }
+    );
+}
 
 
 function handleSchoolResult(resultData) {
@@ -86,8 +97,8 @@ function handleSchoolResult(resultData) {
         rowHTML += "<th>" + resultData[i]["safety"] + "</th>";
         rowHTML += "<th>" + resultData[i]["telephone"] + "</th>";
         // Adds a "Add to List" button to each row of record in school-list
-        rowHTML += `<th><button onclick="addToCart(`;
-        rowHTML += "'" + resultData[i]["school_name"] + "'"
+        rowHTML += `<th><button onclick="getInfo(`;
+        rowHTML += "'" + resultData[i]["school_name"] + "', '" + resultData[i]["school_id"] + "'"
         rowHTML += ')">Add to list</button></th>';
         rowHTML += "</tr>";
         console.log(rowHTML);
