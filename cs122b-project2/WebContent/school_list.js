@@ -33,6 +33,18 @@ function getParameterByName(target) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+function addToCart(schoolName) {
+    console.log("clicked " + schoolName)
+    $.ajax("api/cart", {
+        method: "POST",
+        data: { item: schoolName },
+        success: schoolName => {window.alert(schoolName + "added to cart!")}
+        }
+    );
+}
+
+
+
 function handleSchoolResult(resultData) {
     console.log("handleSchoolResult: populating School table from resultData");
 
@@ -73,8 +85,12 @@ function handleSchoolResult(resultData) {
         rowHTML += "<th>Website: <a href='" + resultData[i]["link_to_website"] + "'>" + resultData[i]["link_to_website"] + "</a></th>"
         rowHTML += "<th>" + resultData[i]["safety"] + "</th>";
         rowHTML += "<th>" + resultData[i]["telephone"] + "</th>";
-        rowHTML += "<th><button id='Add to list'>Add to list</button></th>"
+        // Adds a "Add to List" button to each row of record in school-list
+        rowHTML += `<th><button onclick="addToCart(`;
+        rowHTML += "'" + resultData[i]["school_name"] + "'"
+        rowHTML += ')">Add to list</button></th>';
         rowHTML += "</tr>";
+        console.log(rowHTML);
 
 
 
