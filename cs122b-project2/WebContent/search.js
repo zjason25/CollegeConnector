@@ -25,7 +25,7 @@ function handleSearchResult(resultDataString) {
 
     // If search succeeds, it will redirect the user to index.html
     if (resultDataJson["status"] === "success") {
-        window.location.replace('school_list.html?school=' + resultDataJson['school'] + "&location=" + resultDataJson['location'] + "&other=" + resultDataJson['other'] + "&order=" + resultDataJson['order'] + "&genre=" + resultDataJson['genre']+ "&pagenum="+"20"+ "&whichpage=0");
+        window.location.replace('school_list.html?school=' + resultDataJson['school'] + "&location=" + resultDataJson['location'] + "&other=" + resultDataJson['other'] + "&order=" + resultDataJson['order'] + "&genre=" + resultDataJson['genre']+ "&pagenum="+"20"+ "&whichpage=0" + "&groupby=school" + "&distinct=true");
     } else {
         // If search fails, the web page will display
         // error messages on <div> with id "search_error_message"

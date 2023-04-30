@@ -79,8 +79,9 @@ public class SchoolsServlet extends HttpServlet {
         else if (order.length()>0&&!order.equals("null")){
             query += String.format("ORDER BY s.name %s",order);
         }
+//        query += "\nGROUP BY name;";
         query += ";";
-
+        System.out.println(query);
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 

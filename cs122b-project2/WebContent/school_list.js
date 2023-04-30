@@ -73,7 +73,10 @@ function handleSchoolResult(resultData) {
         rowHTML += "<th>Website: <a href='" + resultData[i]["link_to_website"] + "'>" + resultData[i]["link_to_website"] + "</a></th>"
         rowHTML += "<th>" + resultData[i]["safety"] + "</th>";
         rowHTML += "<th>" + resultData[i]["telephone"] + "</th>";
+        rowHTML += "<th><button id='Add to list'>Add to list</button></th>"
         rowHTML += "</tr>";
+
+
 
         // Append the row created to the table body, which will refresh the page
         schoolTableBodyElement.append(rowHTML);
