@@ -1,8 +1,4 @@
 /**
- * This example is following frontend and backend separation.
- *
- * Before this .js is loaded, the html skeleton is created.
- *
  * This .js performs two steps:
  *      1. Use jQuery to talk to backend API to get the json data.
  *      2. Populate the data to correct html elements.
@@ -34,6 +30,7 @@ function getParameterByName(target) {
 }
 
 function getInfo(school_name, schoolID) {
+    // called by button onclick "Add to List" and sends an ajax request to SingleSchoolServlet to retrieve needed info
     console.log("clicked " + school_name)
     $.ajax("api/single-school", {
             method: "GET",
@@ -43,16 +40,15 @@ function getInfo(school_name, schoolID) {
                 window.alert(resultData[0]["school_name"] + " added to wishlist!")
                 addToCart(resultData)
             }
-        }
-    );
+        });
 }
 
 function addToCart(DataJsonArray) {
+    // called by a successful call to getInfo; sends an ajax POST request to ShoppingCartServlet to add new school to shopping cart
     $.ajax("api/cart", {
             method: "POST",
             data: {name: DataJsonArray[0]["school_name"], genre: DataJsonArray[0]["genre"], state: DataJsonArray[0]["state"], id: DataJsonArray[0]["school_id"], location_id: DataJsonArray[0]["location_id"] },
-        }
-    );
+        });
 }
 
 
@@ -102,8 +98,6 @@ function handleSchoolResult(resultData) {
         rowHTML += ')">Add to list</button></th>';
         rowHTML += "</tr>";
         console.log(rowHTML);
-
-
 
         // Append the row created to the table body, which will refresh the page
         schoolTableBodyElement.append(rowHTML);

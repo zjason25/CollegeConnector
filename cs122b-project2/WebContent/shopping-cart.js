@@ -33,9 +33,10 @@ function handleCartArray(resultArray) {
             "        <option value=3>3</option>\n" +
             "        <option value=4>4</option>\n" +
             "        <option value=5>5</option>\n" +
-            "    </select></th>"
-        res += "<th><button onclick='remove_school(\"name\", \"true\")'>Remove</button></th>"
+            "    </select></th>";
+        res += "<th><button onclick='remove_school(" + '"' + record["name"] + '"' + ", \"true\")'>Remove</button></th>";
         res += "</tr>";
+        console.log(res);
 
         // display resulting html to appropriate wishlist-items field in shopping.html
         wishlist_items.append(res);
@@ -86,4 +87,4 @@ $.ajax("api/cart", {
 });
 
 // Bind the submit action of the form to a event handler function
-cart.submit(handleCartInfo);
+// cart.submit(handleCartInfo);
