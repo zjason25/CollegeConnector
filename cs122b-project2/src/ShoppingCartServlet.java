@@ -26,8 +26,6 @@ public class ShoppingCartServlet extends HttpServlet {
         long lastAccessTime = session.getLastAccessedTime();
 
         JsonObject responseJsonObject = new JsonObject();
-        responseJsonObject.addProperty("sessionID", sessionId);
-        responseJsonObject.addProperty("lastAccessTime", new Date(lastAccessTime).toString());
 
         ArrayList<String> previousItems = (ArrayList<String>) session.getAttribute("previousItems");
         if (previousItems == null) {
@@ -48,6 +46,7 @@ public class ShoppingCartServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // receives a http POST request: get parameter "item" from shopping-cart.html "input" field
+        String remove = request.getParameter("remove");
         String school_name = request.getParameter("name");
         String genre = request.getParameter("genre");
         String state = request.getParameter("state");
@@ -73,7 +72,15 @@ public class ShoppingCartServlet extends HttpServlet {
             previousItems.add(schoolObject.toString());
             // storing the item for this session using a key-pair value
             session.setAttribute("previousItems", previousItems);
-        } else {
+        }
+        else if (remove != null) {
+            for (String item: previousItems) {
+                if (item.contains(school_name.toLowerCase())) {
+                    previousItems.remove(item);
+                }
+            }
+        }
+        else {
             // prevent corrupted states through sharing under multi-threads
             // will only be executed by one thread at a time
             synchronized (previousItems) {

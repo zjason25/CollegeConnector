@@ -34,13 +34,24 @@ function handleCartArray(resultArray) {
             "        <option value=4>4</option>\n" +
             "        <option value=5>5</option>\n" +
             "    </select></th>"
-        res += "<th><button>Remove</button></th>"
+        res += "<th><button onclick='remove_school(\"name\", \"true\")'>Remove</button></th>"
         res += "</tr>";
 
-        // onclick='remove_school("name", "genre", "state")'
         // display resulting html to appropriate wishlist-items field in shopping.html
         wishlist_items.append(res);
     }
+}
+
+function remove_school(school_name, remove) {
+    window.alert(school_name + " removed from wishlist!");
+    $.ajax("api/cart", {
+            method: "POST",
+            data: {name: school_name, remove: remove},
+            success: resultData => {
+                handleCartArray(resultData)
+            }
+    });
+    window.location.replace("shopping-cart.html");
 }
 
 /**
