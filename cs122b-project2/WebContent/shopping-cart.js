@@ -1,5 +1,3 @@
-let cart = $("#cart");
-
 /**
  * Handle the data returned by IndexServlet
  * @param resultDataString jsonObject, consists of session info
@@ -55,36 +53,9 @@ function remove_school(school_name, remove) {
     window.location.replace("shopping-cart.html");
 }
 
-/**
- * Submit form content with POST method
- * @param cartEvent
- */
-function handleCartInfo(cartEvent) {
-    console.log("submit cart form");
-    /**
-     * When users click the submit button, the browser will not direct
-     * users to the url defined in HTML form. Instead, it will call this
-     * event handler when the event is triggered.
-     */
-    cartEvent.preventDefault();
-
-    $.ajax("api/cart", {
-        method: "POST",
-        data: cart.serialize(),
-        success: resultDataString => {
-            let resultDataJson = JSON.parse(resultDataString);
-            handleCartArray(resultDataJson["previousItems"]);
-        }
-    });
-
-    // clear input form
-    cart[0].reset();
-}
 
 $.ajax("api/cart", {
     method: "GET",
     success: handleSessionData
 });
 
-// Bind the submit action of the form to a event handler function
-// cart.submit(handleCartInfo);
