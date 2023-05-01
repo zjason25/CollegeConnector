@@ -1,4 +1,4 @@
-## Project 1 - college recommendation website
+## College recommendation website
 ### Domain
 
 As opposed to the default Fablix domain, we decided to implement a college recommendation website, where users can view colleges based on rating, SAT scores, or number of votes.
@@ -20,7 +20,6 @@ The data we used to populate the database consists of data crawled from the web 
 ### Web server
 We are using Tomcat10 to host our server and an EC2 t2_micro AWS Ubuntu instance to deploy the application.
 
-
 ### Demo Link
 Link to the [demo](https://youtu.be/RS0CCIPbIco)
 
@@ -29,3 +28,19 @@ Link to the [demo](https://youtu.be/RS0CCIPbIco)
 [Jason Zheng](https://github.com/zjason25) generated artificial data and finalized schemas for the MySQL database, deployed the application on the instance and completed the demo and this README.
 
 Our TA [Xinyuan](https://github.com/aglinxinyuan) and [Yicong](https://github.com/Yicong-Huang) for providing the *cs122b-project1-api-example* from which we can learn build our api for this project.
+
+## [Project 2 Addition]: 
+### Login
+In project 2, we added a sign-in page, a feature that prevents users from accessing any other pages unless signed in. 
+
+### Search/Browse
+We implemented substring matching in our keyword search by using the LIKE operator in MySQL. Additionally, the website also now supports browsing colleges by their initial letters and type. For instance, a drop-down feature allows the user to select "Public University" and initiate search from there.
+
+### Wishlist(Shopping Cart) and Recommendation(Checkout)
+Similar to a shopping cart in the Fablix domain, our college recommendation website CollegeConnector(a placeholder name) allows the users to choose a college of their own liking and add it a wishlist. Inside the wishlist, the user has access to the colleges' info such as name, location, and state. The user can add and delete college inside the wishlist. From the wishlist, the user may proceed to a Calculate Match page, where the user enters personal statistics such as SAT scores, range of tuition cost, and school genre, from which the reader can click on "calculate match", which ultimately directs the reader to a page showing a best-matching college from the user's wishlist. 
+
+
+### Contribution
+[Yanran](https://github.com/yanranw1) implemented the login and search/browse related services. [Jason](https://github.com/zjason25) was responsible for writing services related to Wishlist and styling the login and checkout page.
+
+Once again, our TA Xinyuan and Yicong for provided the example codes on session/form and login page from which we can learn build our api for this project.
