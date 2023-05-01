@@ -47,7 +47,9 @@ function addToCart(DataJsonArray) {
     // called by a successful call to getInfo; sends an ajax POST request to ShoppingCartServlet to add new school to shopping cart
     $.ajax("api/cart", {
             method: "POST",
-            data: {name: DataJsonArray[0]["school_name"], genre: DataJsonArray[0]["genre"], state: DataJsonArray[0]["state"], id: DataJsonArray[0]["school_id"], location_id: DataJsonArray[0]["location_id"] },
+            data: {name: DataJsonArray[0]["school_name"], genre: DataJsonArray[0]["genre"], state: DataJsonArray[0]["state"],
+                id: DataJsonArray[0]["school_id"], location_id: DataJsonArray[0]["location_id"], SAT: DataJsonArray[0]["lower_SAT"],
+                cost: DataJsonArray[0]["net_cost"]}
         });
 }
 

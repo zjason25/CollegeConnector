@@ -53,6 +53,12 @@ function remove_school(school_name, remove) {
     window.location.replace("shopping-cart.html");
 }
 
+const checkoutBtn = document.querySelector("#checkout");
+checkoutBtn.addEventListener("click", function(event) {
+    // Handle previous button click
+    console.log("Checkout button clicked");
+    window.location.replace("checkout.html");// Setting request url, which is mapped by StarsServlet in Stars.java
+});
 
 $.ajax("api/cart", {
     method: "GET",

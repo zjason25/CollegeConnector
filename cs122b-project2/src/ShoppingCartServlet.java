@@ -21,9 +21,8 @@ public class ShoppingCartServlet extends HttpServlet {
      * handles GET requests to store session information
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("Got a request in shopping cart servlet");
         HttpSession session = request.getSession();
-        String sessionId = session.getId();
-        long lastAccessTime = session.getLastAccessedTime();
 
         JsonObject responseJsonObject = new JsonObject();
 
@@ -52,6 +51,8 @@ public class ShoppingCartServlet extends HttpServlet {
         String state = request.getParameter("state");
         String school_id = request.getParameter("id");
         String location_id = request.getParameter("location_id");
+        String SAT = request.getParameter("lower_SAT");
+        String cost = request.getParameter("net_cost");
         System.out.println(school_name);
         HttpSession session = request.getSession();
 
@@ -66,6 +67,9 @@ public class ShoppingCartServlet extends HttpServlet {
         schoolObject.addProperty("state", state);
         schoolObject.addProperty("school_id", school_id);
         schoolObject.addProperty("location_id", location_id);
+        schoolObject.addProperty("SAT", SAT);
+        schoolObject.addProperty("cost", cost);
+
         if (previousItems == null) {
             previousItems = new ArrayList<String>();
 
