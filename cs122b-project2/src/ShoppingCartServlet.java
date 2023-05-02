@@ -73,6 +73,7 @@ public class ShoppingCartServlet extends HttpServlet {
         String state = request.getParameter("state");
         String safety_level = request.getParameter("safety_level");
         String genre = request.getParameter("genre");
+        String preference = request.getParameter("preference");
 
 
         System.out.println(school_name);
@@ -102,6 +103,7 @@ public class ShoppingCartServlet extends HttpServlet {
         schoolObject.addProperty("city", city);
         schoolObject.addProperty("state", state);
         schoolObject.addProperty("safety_level", safety_level);
+        schoolObject.addProperty("preference", preference);
 
 
         if (previousItems == null) {

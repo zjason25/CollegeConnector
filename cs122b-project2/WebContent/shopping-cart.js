@@ -27,7 +27,9 @@ function handleCartArray(resultArray) {
         res += "<th><a href=\"single-school.html?id=" + record["school_id"] + '">' + record["school_name"] + "</th>";
         res += "<th>" + record["genre"] + "</th>";
         res += "<th><a href=\"single-location.html?id=" + record["location_id"] + '">' + record["city"] + ", " + record["state"] + "</th>";
+        console.log(record["preference"]);
         res += "<th><form=\"preference_score\"><select name=\"page\" id=\"page\">\n" +
+            "        <option value=" + parseInt(record["preference"]) + ">" + record["preference"] + "</option>\n" +
             "        <option value=1>1</option>\n" +
             "        <option value=2>2</option>\n" +
             "        <option value=3>3</option>\n" +

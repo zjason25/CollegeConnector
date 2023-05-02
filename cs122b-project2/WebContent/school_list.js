@@ -44,6 +44,7 @@ function getInfo(school_name, schoolID) {
 }
 
 function addToCart(DataJsonArray) {
+    const score = window.prompt("Give a score on how much you love this school (from 1-5):");
     // called by a successful call to getInfo; sends an ajax POST request to ShoppingCartServlet to add new school to shopping cart
     console.log("enters add to cart");
     console.log(DataJsonArray[0]["net_cost"] + " " + DataJsonArray[0]["lower_SAT"]);
@@ -53,7 +54,7 @@ function addToCart(DataJsonArray) {
                 {school_name: DataJsonArray[0]["school_name"], genre: DataJsonArray[0]["genre"], state: DataJsonArray[0]["state"],
                      city: DataJsonArray[0]["city"], safety_level :DataJsonArray[0]["safety_level"],
                     school_id: DataJsonArray[0]["school_id"], location_id: DataJsonArray[0]["location_id"], lower_SAT: DataJsonArray[0]["lower_SAT"],
-                    upper_SAT: DataJsonArray[0]["upper_SAT"], net_cost: DataJsonArray[0]["net_cost"]}
+                    upper_SAT: DataJsonArray[0]["upper_SAT"], net_cost: DataJsonArray[0]["net_cost"], preference: score}
         });
 }
 
