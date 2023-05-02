@@ -37,10 +37,14 @@ In project 2, we added a sign-in page, a feature that prevents users from access
 We implemented substring matching in our keyword search by using the LIKE operator in MySQL. Additionally, the website also now supports browsing colleges by their initial letters and type. For instance, a drop-down feature allows the user to select "Public University" and initiate search from there.
 
 ### Wishlist(Shopping Cart) and Recommendation(Checkout)
-Similar to a shopping cart in the Fablix domain, our college recommendation website CollegeConnector(a placeholder name) allows the users to choose a college of their own liking and add it a wishlist. Inside the wishlist, the user has access to the colleges' info such as name, location, and state. The user can add and delete college inside the wishlist. From the wishlist, the user may proceed to a Calculate Match page, where the user enters personal statistics such as SAT scores, range of tuition cost, and school genre, from which the reader can click on "calculate match", which ultimately directs the reader to a page showing a best-matching college from the user's wishlist. 
+Similar to a shopping cart in the Fablix domain, our college recommendation website CollegeConnector(a placeholder name) uses a wishlist to allows the users to choose a college of their own liking. Inside the wishlist, the user has access to the colleges' info such as name, location, and state. The user can add and delete college inside the wishlist. From the wishlist, the user may proceed to a Calculate Match page, where the user enters personal statistics such as SAT scores, range of tuition cost, and school genre, from which the reader can click on "calculate match", which ultimately directs the reader to a page showing a best-matching college from the user's wishlist.
 
+### How's our domain different from Fablix
+We did not include a "sale date" attribute in our schema for the recommendation table, which is equivalent to the sales table in Fablix. Hence, the demonstration only shows a increase in the number of records as proof for successful insert into our recommendation table.
+
+### Link to our [demo](https://youtu.be/7Z1LOKpo5rY) for Project 2
 
 ### Contribution
-[Yanran](https://github.com/yanranw1) implemented the login and search/browse related services. [Jason](https://github.com/zjason25) was responsible for writing services related to Wishlist and styling the login and checkout page.
+Huge shout-out to [Yanran](https://github.com/yanranw1) for her tireless efforts in implementing the login and search/browse, and checkout services. [Jason](https://github.com/zjason25) was responsible for writing services related to Wishlist and styling the login and checkout page.
 
 Once again, our TA Xinyuan and Yicong for provided the example codes on session/form and login page from which we can learn build our api for this project.
