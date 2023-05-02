@@ -46,29 +46,63 @@ public class ShoppingCartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // receives a http POST request: get parameter "item" from shopping-cart.html "input" field
         String remove = request.getParameter("remove");
-        String school_name = request.getParameter("name");
-        String genre = request.getParameter("genre");
-        String state = request.getParameter("state");
-        String school_id = request.getParameter("id");
+//        String school_name = request.getParameter("name");
+//        String genre = request.getParameter("genre");
+//        String state = request.getParameter("state");
+//        String school_id = request.getParameter("id");
+//        String location_id = request.getParameter("location_id");
+//        String SAT = request.getParameter("SAT");
+//        String cost = request.getParameter("cost");
+//
+
+        String school_id= request.getParameter("school_id");
+        String school_name = request.getParameter("school_name");
+        String school_dis = request.getParameter("description");
+        String link_to_website= request.getParameter("link_to_website");
+        String link_to_image= request.getParameter("link_to_image");
+        String school_rating= request.getParameter("rating");
+
+
+        String address = request.getParameter("address");
+        String net_cost = request.getParameter("net_cost");
+        String upper_SAT= request.getParameter("upper_SAT");
+        String lower_SAT = request.getParameter("lower_SAT");
+
         String location_id = request.getParameter("location_id");
-        String SAT = request.getParameter("lower_SAT");
-        String cost = request.getParameter("net_cost");
+        String city = request.getParameter("city");
+        String state = request.getParameter("state");
+        String safety_level = request.getParameter("safety_level");
+        String genre = request.getParameter("genre");
+
+
         System.out.println(school_name);
         HttpSession session = request.getSession();
 
         // get the previous items in a ArrayList
         ArrayList<String> previousItems = (ArrayList<String>) session.getAttribute("previousItems");
-        //preference: stores college name and
-        ArrayList<ArrayList<String>> preference;
+        //preference: stores college name and student's preference scores
+
 
         JsonObject schoolObject = new JsonObject();
-        schoolObject.addProperty("name", school_name);
-        schoolObject.addProperty("genre", genre);
-        schoolObject.addProperty("state", state);
+
         schoolObject.addProperty("school_id", school_id);
+        schoolObject.addProperty("school_name", school_name);
+        schoolObject.addProperty("school_dis", school_dis);
         schoolObject.addProperty("location_id", location_id);
-        schoolObject.addProperty("SAT", SAT);
-        schoolObject.addProperty("cost", cost);
+        schoolObject.addProperty("link_to_website", link_to_website);
+        schoolObject.addProperty("link_to_image", link_to_image);
+        schoolObject.addProperty("genre", genre);
+
+        schoolObject.addProperty("address", address);
+        schoolObject.addProperty("net_cost", net_cost);
+        schoolObject.addProperty("upper_SAT", upper_SAT);
+        schoolObject.addProperty("lower_SAT", lower_SAT);
+        schoolObject.addProperty("rating", school_rating);
+
+        schoolObject.addProperty("city", city);
+        schoolObject.addProperty("state", state);
+        schoolObject.addProperty("safety_level", safety_level);
+
 
         if (previousItems == null) {
             previousItems = new ArrayList<String>();

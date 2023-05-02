@@ -1,3 +1,5 @@
+let preference_form = $("#preference_score");
+
 /**
  * Handle the data returned by IndexServlet
  * @param resultDataString jsonObject, consists of session info
@@ -22,16 +24,16 @@ function handleCartArray(resultArray) {
 
         // each item will be in a bullet point
         let res = "<tr>";
-        res += "<th><a href=\"single-school.html?id=" + record["school_id"] + '">' + record["name"] + "</th>";
+        res += "<th><a href=\"single-school.html?id=" + record["school_id"] + '">' + record["school_name"] + "</th>";
         res += "<th>" + record["genre"] + "</th>";
-        res += "<th><a href=\"single-location.html?id=" + record["location_id"] + '">' + record["state"] + "</th>";
-        res += "<th><select name=\"page\" id=\"page\">\n" +
+        res += "<th><a href=\"single-location.html?id=" + record["location_id"] + '">' + record["city"] + ", " + record["state"] + "</th>";
+        res += "<th><form=\"preference_score\"><select name=\"page\" id=\"page\">\n" +
             "        <option value=1>1</option>\n" +
             "        <option value=2>2</option>\n" +
             "        <option value=3>3</option>\n" +
             "        <option value=4>4</option>\n" +
             "        <option value=5>5</option>\n" +
-            "    </select></th>";
+            "    </select></form></th>";
         res += "<th><button onclick='remove_school(" + '"' + record["name"] + '"' + ", \"true\")'>Remove</button></th>";
         res += "</tr>";
         console.log(res);
@@ -53,6 +55,10 @@ function remove_school(school_name, remove) {
     window.location.replace("shopping-cart.html");
 }
 
+function submitPreference(preference_score) {
+    $.ajax("")
+}
+
 const checkoutBtn = document.querySelector("#checkout");
 checkoutBtn.addEventListener("click", function(event) {
     // Handle previous button click
@@ -65,3 +71,4 @@ $.ajax("api/cart", {
     success: handleSessionData
 });
 
+preference_form.submit()

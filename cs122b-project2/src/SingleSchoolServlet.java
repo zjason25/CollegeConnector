@@ -89,8 +89,6 @@ public class SingleSchoolServlet extends HttpServlet {
                 String genre = rs.getString("fullname");
 
 
-
-
                 // Create a JsonObject based on the data we retrieve from rs
 
                 JsonObject jsonObject = new JsonObject();
