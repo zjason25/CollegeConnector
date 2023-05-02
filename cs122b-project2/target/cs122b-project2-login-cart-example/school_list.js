@@ -140,6 +140,7 @@ jQuery.ajax({
 function submitSortForm(event) {
     event.preventDefault();
     const sortValue = $('#sort').val();
+    localStorage.setItem("lstLink",JSON.stringify('school_list.html?school=' + schoolName+"&location=" + locationName+"&other="+ otherName+"&order="+ sortValue + "&genre="+ genreName+ "&pagenum="+ pagenum+ "&whichpage="+ whichpage));
     window.location.replace('school_list.html?school=' + schoolName+"&location=" + locationName+"&other="+ otherName+"&order="+ sortValue + "&genre="+ genreName+ "&pagenum="+ pagenum+ "&whichpage="+ whichpage);
 }
 
