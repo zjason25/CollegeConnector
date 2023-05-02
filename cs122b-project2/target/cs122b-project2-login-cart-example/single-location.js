@@ -52,11 +52,11 @@ function handleResult(resultData) {
     let locationInfoElement = jQuery("#location_info");
 
     // append two html <p> created to the h3 body, which will refresh the page
+    const lst_link = JSON.parse(localStorage.getItem("lstLink"));
     locationInfoElement.append(
         "<p>" +
-        // Add a link to single-school.html with id passed with GET url parameter
-        '<a href="school_list.html">'
-        + "Back to School List"+
+        '<a href="' + lst_link + '">'
+        + "Back to School List" +
         '</a>' +
         "</p>"+
         "<p>Zipcode: " + resultData[0]["zipcode"] + "</p>"+
