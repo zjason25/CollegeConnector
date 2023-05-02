@@ -115,7 +115,10 @@ public class ShoppingCartServlet extends HttpServlet {
         }
         else if (remove != null) {
             for (String item: previousItems) {
+                System.out.println(item);
+                System.out.println(school_name);
                 if (item.contains(school_name)) {
+                    System.out.println("removing: " + item);
                     previousItems.remove(item);
                 }
             }

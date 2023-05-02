@@ -36,7 +36,7 @@ function handleCartArray(resultArray) {
             "        <option value=4>4</option>\n" +
             "        <option value=5>5</option>\n" +
             "    </select></form></th>";
-        res += "<th><button onclick='remove_school(" + '"' + record["name"] + '"' + ", \"true\")'>Remove</button></th>";
+        res += "<th><button onclick='remove_school(" + '"' + record["school_name"] + '"' + ", \"true\")'>Remove</button></th>";
         res += "</tr>";
         console.log(res);
 
@@ -49,7 +49,7 @@ function remove_school(school_name, remove) {
     window.alert(school_name + " removed from wishlist!");
     $.ajax("api/cart", {
             method: "POST",
-            data: {name: school_name, remove: remove},
+            data: {school_name: school_name, remove: remove},
             success: resultData => {
                 handleCartArray(resultData)
             }
