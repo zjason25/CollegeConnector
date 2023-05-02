@@ -1,5 +1,5 @@
-
-
+let school_array = [];
+let matchin_rate = [];
 function handleSearchResult(student_data,resultData) {
     const genreSelection = student_data[2]
     const SATSelection = parseInt(student_data[0])
@@ -23,6 +23,8 @@ function handleSearchResult(student_data,resultData) {
         }
         console.log("The result json array: " + resultData);
         console.log(resultJSONData["school_name"]);
+        school_array.push( resultJSONData['school_id'] );
+        matchin_rate.push(matchscore);
         let rowHTML = "";
         rowHTML += "<tr>";
 
@@ -49,6 +51,19 @@ function handleSearchResult(student_data,resultData) {
 
         schoolTableBodyElement.append(rowHTML);
     }
+    // localStorage.setItem("school_array",JSON.stringify(school_array))
+    console.log("here");
+    console.log(localStorage.getItem("user_id"));
+
+    const user_id = JSON.parse(localStorage.getItem("user_id"));
+    matchin_rate = JSON.stringify(matchin_rate);
+    school_array = JSON.stringify(school_array);
+    console.log(user_id);
+    $.ajax({
+        type: 'GET',
+        url: 'api/check',
+        data: {school_array: school_array, user_id: user_id, matching_rate: matchin_rate}
+    });
 }
 
 console.log(1)

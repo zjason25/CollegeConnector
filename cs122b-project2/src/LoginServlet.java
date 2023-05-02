@@ -50,6 +50,7 @@ public class LoginServlet extends HttpServlet {
 //            SELECT COUNT(1) FROM user WHERE email = 'SuzanneAshley16@yahoo.gov' and password = '*FOT@!aZy60z'
             String query = String.format("SELECT COUNT(1) FROM user WHERE email = '%s' and password = '%s'",user_email, user_password);
             String query_1 = String.format("SELECT COUNT(1) FROM user WHERE email = '%s'", user_email);
+
             ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
                 pass = rs.getInt(1);
@@ -60,17 +61,25 @@ public class LoginServlet extends HttpServlet {
                 user_exist = rs_1.getInt(1);
             }
             rs_1.close();
-            statement.close();
 
-//            System.out.println(user_email);
-//            System.out.println(user_password);
-//            System.out.println(String.format("pass: %d",pass));
-//            System.out.println(String.format("user_exist: %d",user_exist));
 
             JsonObject responseJsonObject = new JsonObject();
             if (pass==1) {
-                // Login success:
-                // set this user into the session
+
+                String query_2 = String.format("SELECT * FROM user WHERE email = '%s' and password = '%s'",user_email, user_password);
+                ResultSet rs_2 = statement.executeQuery(query_2);
+                String user_id = "";
+                System.out.println("here");
+                while (rs_2.next()) {
+                    user_id = rs_2.getString("id");
+                }
+                System.out.println(user_id);
+
+                rs_2.close();
+                responseJsonObject.addProperty("user_id", user_id);
+
+//                 Login success:
+//                 set this user into the session
                 request.getSession().setAttribute("user", new User(user_email));
 
                 responseJsonObject.addProperty("status", "success");
@@ -90,6 +99,8 @@ public class LoginServlet extends HttpServlet {
 //                    System.out.println("%%0.2");
                 }
             }
+            statement.close();
+
             response.getWriter().write(responseJsonObject.toString());
 //            System.out.println("%%5");
             // Declare our statement

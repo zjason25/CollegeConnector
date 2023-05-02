@@ -13,9 +13,10 @@ function handleLoginResult(resultDataString) {
 
     // If login succeeds, it will redirect the user to index.html
     if (resultDataJson["status"] === "success") {
+        localStorage.setItem("user_id",JSON.stringify(resultDataJson["user_id"]))
         window.location.replace("search.html");
     } else {
-        // If login fails, the web page will display 
+        // If login fails, the web page will display
         // error messages on <div> with id "login_error_message"
         console.log("show error message");
         console.log(resultDataJson["message"]);
@@ -48,4 +49,3 @@ function submitLoginForm(formSubmitEvent) {
 
 // Bind the submit action of the form to a handler function
 login_form.submit(submitLoginForm);
-

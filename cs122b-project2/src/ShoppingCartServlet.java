@@ -53,7 +53,7 @@ public class ShoppingCartServlet extends HttpServlet {
 //        String location_id = request.getParameter("location_id");
 //        String SAT = request.getParameter("SAT");
 //        String cost = request.getParameter("cost");
-//
+
 
         String school_id= request.getParameter("school_id");
         String school_name = request.getParameter("school_name");
