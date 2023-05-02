@@ -44,6 +44,12 @@ We did not include a "sale date" attribute in our schema for the recommendation 
 
 ### Link to our [demo](https://youtu.be/7Z1LOKpo5rY) for Project 2
 
+To test our site, use login:
+SuzanneAshley16@yahoo.gov and password:
+*FOT@!aZy60z
+at [link](http://54.67.47.84:8080/cs122b-project2-login-cart-example/login.html)
+
+
 ### Contribution
 Huge shout-out to [Yanran](https://github.com/yanranw1) for her tireless efforts in implementing the login and search/browse, and checkout services. [Jason](https://github.com/zjason25) was responsible for writing services related to Wishlist and styling the login and checkout page.
 
