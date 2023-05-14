@@ -56,11 +56,6 @@ public class SearchServlet extends HttpServlet {
         try (Connection conn = dataSource.getConnection()) {
             System.out.println("cc");
 
-
-            // Get a connection from dataSource
-            // Construct a query with parameter represented by "?"
-//            Statement statement = conn.createStatement();
-
 //            SELECT COUNT(1) FROM user WHERE email = 'SuzanneAshley16@yahoo.gov' and password = '*FOT@!aZy60z'
             String query = "SELECT COUNT(1) \n" +
                     "FROM school AS s\n" +
