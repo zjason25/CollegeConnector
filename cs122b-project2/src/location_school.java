@@ -38,7 +38,7 @@ public class location_school {
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
             // parse using builder to get DOM representation of the XML file
-            dom = documentBuilder.parse("location_school (4).xml");
+            dom = documentBuilder.parse("location_school.xml");
 
         } catch (ParserConfigurationException | SAXException | IOException error) {
             error.printStackTrace();

@@ -1,3 +1,4 @@
+import jakarta.servlet.ServletConfig;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -9,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class MyDomParserExample {
 
@@ -25,7 +27,6 @@ public class MyDomParserExample {
 
         // iterate through the list and print the data
         printData();
-
     }
 
     private void parseXmlFile() {
@@ -38,7 +39,7 @@ public class MyDomParserExample {
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
             // parse using builder to get DOM representation of the XML file
-            dom = documentBuilder.parse("locations (7).xml");
+            dom = documentBuilder.parse("locations.xml");
 
         } catch (ParserConfigurationException | SAXException | IOException error) {
             error.printStackTrace();
