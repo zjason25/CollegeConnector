@@ -59,20 +59,23 @@ public class EmployeeLoginServlet extends HttpServlet {
         try (Connection conn = dataSource.getConnection()) {
             // Get a connection from dataSource
             // Construct a query with parameter represented by "?"
-            Statement statement = conn.createStatement();
+
             String query = String.format("SELECT COUNT(1) FROM employees WHERE email = '%s' and password = '%s'",user_email, user_password);
             String query_1 = String.format("SELECT COUNT(1) FROM employees WHERE email = '%s'", user_email);
+            PreparedStatement statement = conn.prepareStatement(query);
+            PreparedStatement statement1 = conn.prepareStatement(query_1);
             ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
                 pass = rs.getInt(1);
             }
             rs.close();
-            ResultSet rs_1 = statement.executeQuery(query_1);
+            ResultSet rs_1 = statement1.executeQuery(query_1);
             while (rs_1.next()) {
                 user_exist = rs_1.getInt(1);
             }
             rs_1.close();
             statement.close();
+            statement1.close();
 
             JsonObject responseJsonObject = new JsonObject();
             if (pass==1) {
