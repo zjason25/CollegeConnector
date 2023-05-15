@@ -132,7 +132,7 @@ public class SchoolParser {
                 Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
                 connection.setAutoCommit(false);
                 PreparedStatement statement = connection.prepareStatement(query);
-                System.out.println(query);
+//                System.out.println(query);
                 statement.executeUpdate(query);
                 int rowsAffected = statement.executeUpdate();
                 System.out.println("Rows inserted: " + rowsAffected);
@@ -255,8 +255,6 @@ public class SchoolParser {
         String name = getTextValue(element, "name");
         int net_worth = getIntValue(element, "net_worth");
         String industry = getTextValue(element, "industry");
-//        System.out.println("here");
-//        System.out.println(industry);
         String type = element.getAttribute("type");
 
         return new celebrity(id, name,industry, net_worth,type);
@@ -281,7 +279,6 @@ public class SchoolParser {
 
     private int getIntValue(Element ele, String tagName) {
         // in production application you would catch the exception
-//        System.out.println(getTextValue(ele, tagName));
         return Integer.parseInt(getTextValue(ele, tagName));
     }
 
