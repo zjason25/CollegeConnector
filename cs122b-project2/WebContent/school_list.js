@@ -33,14 +33,14 @@ function getInfo(school_name, schoolID) {
     // called by button onclick "Add to List" and sends an ajax request to SingleSchoolServlet to retrieve needed info
     console.log("clicked " + school_name)
     $.ajax("api/single-school", {
-            method: "GET",
-            data: {id: schoolID, name: school_name},
-            success: resultData => {
-                console.log(resultData[0]["school_name"] + " " + resultData[0]["genre"] + " " + resultData[0]["state"]);
-                window.alert(resultData[0]["school_name"] + " added to wishlist!");
-                addToCart(resultData);
-            }
-        });
+        method: "GET",
+        data: {id: schoolID, name: school_name},
+        success: resultData => {
+            console.log(resultData[0]["school_name"] + " " + resultData[0]["genre"] + " " + resultData[0]["state"]);
+            window.alert(resultData[0]["school_name"] + " added to wishlist!");
+            addToCart(resultData);
+        }
+    });
 }
 
 function addToCart(DataJsonArray) {
@@ -49,13 +49,13 @@ function addToCart(DataJsonArray) {
     console.log("enters add to cart");
     console.log(DataJsonArray[0]["net_cost"] + " " + DataJsonArray[0]["lower_SAT"]);
     $.ajax("api/cart", {
-            method: "POST",
-            data:
-                {school_name: DataJsonArray[0]["school_name"], genre: DataJsonArray[0]["genre"], state: DataJsonArray[0]["state"],
-                     city: DataJsonArray[0]["city"], safety_level :DataJsonArray[0]["safety_level"],
-                    school_id: DataJsonArray[0]["school_id"], location_id: DataJsonArray[0]["location_id"], lower_SAT: DataJsonArray[0]["lower_SAT"],
-                    upper_SAT: DataJsonArray[0]["upper_SAT"], net_cost: DataJsonArray[0]["net_cost"], preference: score}
-        });
+        method: "POST",
+        data:
+            {school_name: DataJsonArray[0]["school_name"], genre: DataJsonArray[0]["genre"], state: DataJsonArray[0]["state"],
+                city: DataJsonArray[0]["city"], safety_level :DataJsonArray[0]["safety_level"],
+                school_id: DataJsonArray[0]["school_id"], location_id: DataJsonArray[0]["location_id"], lower_SAT: DataJsonArray[0]["lower_SAT"],
+                upper_SAT: DataJsonArray[0]["upper_SAT"], net_cost: DataJsonArray[0]["net_cost"], preference: score}
+    });
 }
 
 

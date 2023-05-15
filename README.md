@@ -54,3 +54,35 @@ at [link](http://54.67.47.84:8080/cs122b-project2-login-cart-example/login.html)
 Huge shout-out to [Yanran](https://github.com/yanranw1) for her tireless efforts in implementing the login and search/browse, and checkout services. [Jason](https://github.com/zjason25) was responsible for writing services related to Wishlist and styling the login and checkout page.
 
 Once again, our TA Xinyuan and Yicong for provided the example codes on session/form and login page from which we can learn build our api for this project.
+
+
+
+## Project 3 Addition:
+
+
+Report inconsistency data: Report inconsistency data to the user and included in README: We inserted all the information from XML. For the celebrity info for each school. We created a new table celebrities to store the celebrity information and use a new table query_celebrities_in_schools to store the relationship between two celebrities and schools. We ignored all repeated information.
+
+## Two optimization strategies:
+Our runtime mostly came down to DOM tree construction and SQL insertion. For the former, we opted to disabling XML validation and ExpandEntityReference as to reduce the overhead and additional processing with DOM tree construction. As for our SQL insertion, simply turning off auto-commit was not enough of an improvement. As such, we decided to use one single insert statement to insert multiple values. This measure alone improved our insertion time from minutes to a matter of just a few seconds.
+
+### Prepared Statements:
+We used prepared statements in the following files:
+- AddGenre
+- AddLocation
+- AddSchool
+- LoginServlet
+- SearchServlet
+- SingleLocationServlet
+- SingleSchoolSerlvet
+- EmployeeLoginServlet
+
+### NewFileName Explanation
+File MyDomParserExample is our dom parser for location xml
+File SchoolParser is our dom parser for school xml
+File location_school is our dom parser for location_school xm
+
+
+### Contribution
+Yanran Wang did TASK 4 and 5. She was also responsible for creating our three xml files for our custom domain and writing parsers for all three xml files.
+Jason Zheng did Task 1 to 3 and he is also responsible for parser optimization.
+

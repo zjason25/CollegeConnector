@@ -56,53 +56,68 @@ public class SchoolsServlet extends HttpServlet {
                 "JOIN genres_in_schools AS gis ON gis.school_id = s.id\n" +
                 "JOIN genre AS g ON g.id = gis.genre_id\n" +
                 "JOIN location AS l ON l.location_id = sil.location_id\n";
+        String sub_query = "";
         if(school.length()>0&&!school.equals("null")){
             if(school.length()==2 && school.substring(1,2).equals("_")){
-                query += String.format("WHERE s.name like '%s' or s.name like '%s'",school.substring(0,1)+"%",school.substring(0,1).toLowerCase()+"%");
+                sub_query += String.format("WHERE s.name like '%s' or s.name like '%s'",school.substring(0,1)+"%",school.substring(0,1).toLowerCase()+"%");
             }
             else {
-                query += String.format("WHERE s.name LIKE '%s'", school);
+                sub_query += String.format("WHERE s.name LIKE '%s'", school);
             }
         }
         if(location.length()>0&&!location.equals("null")){
-            query += String.format(" and l.state_full LIKE '%s'",location);
+            if(sub_query.length()==0){
+                sub_query += "WHERE ";
+            }
+            else{
+                sub_query += " and ";
+            }
+            sub_query += String.format("l.state_full LIKE '%s'",location);
         }
         if(other.length()>0&&!other.equals("null")){
-            query += String.format(" and s.description LIKE '%s'",other);
+            if(sub_query.length()==0){
+                sub_query += "WHERE ";
+            }
+            else{
+                sub_query += " and ";
+            }
+            sub_query += String.format("s.description LIKE '%s'",other);
         }
         if(genre.length()>0&&!genre.equals("null")){
-            query += String.format(" and g.fullname = '%s'",genre);
+            if(sub_query.length()==0){
+                sub_query += "WHERE ";
+            }
+            else{
+                sub_query += " and ";
+            }
+            sub_query += String.format("g.fullname = '%s'",genre);
         }
         if(order.length()>6&&!order.equals("null")) {
-            query += "\nGROUP BY name\n";
-            query += order;
+            sub_query += "\nGROUP BY name\n";
+            sub_query += order;
         }
         else if (order.length()>0&&!order.equals("null")){
-            query += "\nGROUP BY name\n";
-            query += String.format("ORDER BY s.name %s",order);
+            sub_query += "\nGROUP BY name\n";
+            sub_query += String.format("ORDER BY s.name %s",order);
         }
         else {
-            query += "GROUP BY name";
+            sub_query += "\nGROUP BY name";
         }
 
-        query += ";";
+        sub_query += ";";
+        query = query+sub_query;
         System.out.println(query);
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
         // Get a connection from dataSource and let resource manager close the connection after usage.
         try (Connection conn = dataSource.getConnection()) {
-
-            // Declare our statement
-            Statement statement = conn.createStatement();
-
-//            String query = "SELECT * from school ORDER BY rating DESC";
-
-            // Perform the query
             System.out.println("here");
-
             System.out.println(query);
+            Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(query);
+
+            System.out.println("22");
 
             JsonArray jsonArray = new JsonArray();
             JsonObject jsonNum = new JsonObject();
@@ -111,6 +126,7 @@ public class SchoolsServlet extends HttpServlet {
 
 
             jsonArray.add(jsonNum);
+            System.out.println("55");
 
             // Iterate through each row of rs
             int counter = 0;
@@ -149,6 +165,8 @@ public class SchoolsServlet extends HttpServlet {
                 counter += 1;
 
             }
+            System.out.println("666");
+
             rs.close();
             statement.close();
 
