@@ -1,4 +1,3 @@
-import jakarta.servlet.ServletConfig;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -8,14 +7,16 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class MyDomParserExample {
 
     List<location> locations = new ArrayList<>();
     Document dom;
+    Integer fileParsed = 0;
+    String query_string = "INSERT IGNORE location(location_id, city, state_init, state_full, zipcode, LivingCostIndex, safety) VALUES ";
 
     public void runExample() {
 
@@ -26,15 +27,21 @@ public class MyDomParserExample {
         parseDocument();
 
         // iterate through the list and print the data
-        printData();
+//        printData();
+
+        System.out.println("files parsed: " + fileParsed);
+        query_string += ";";
+        System.out.println(query_string);
+        insertLocationIntoDatabase(query_string);
+
     }
 
     private void parseXmlFile() {
         // get the factory
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-
+        documentBuilderFactory.setValidating(false); // Disable validation
+        documentBuilderFactory.setExpandEntityReferences(false); // Disable entity expansion
         try {
-
             // using factory get an instance of document builder
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
@@ -56,15 +63,51 @@ public class MyDomParserExample {
 
             // get the employee element
             Element element = (Element) nodeList.item(i);
-
+            fileParsed++;
             // get the Employee object
             location location = parseLocation(element);
-
+            updateQuery(location);
             // add it to list
             locations.add(location);
         }
     }
 
+    private void updateQuery(location location) {
+        query_string += "('" + location.getLocation_id() + "', '" + location.getCity() +"', '" + location.getState_init() + "', '"  + location.getState_full() + "', '"+ location.getZipcode() +"', "+
+                location.getLci() + ", " + location.getSafety() + ")\n";
+        if (fileParsed < 6800) {
+            query_string += ",";
+        }
+    }
+
+    private void insertLocationIntoDatabase(String query_string) {
+        String loginUser = "mytestuser";
+        String loginPasswd = "My6$Password";
+        String loginUrl = "jdbc:mysql://localhost:3306/collegedb";
+
+        try {
+            // load the MySQL JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            // create a connection to the database
+            try {
+                // create a connection to the database
+                Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                PreparedStatement statement = connection.prepareStatement(query_string);
+                // execute the SQL statement
+                int rowsAffected = statement.executeUpdate();
+                System.out.println("Duplicate rows: " + (fileParsed - rowsAffected));
+
+                // close the statement and connection
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * It takes an employee Element, reads the values in, creates
      * an Employee object for return
@@ -123,7 +166,7 @@ public class MyDomParserExample {
      */
     private int getIntValue(Element ele, String tagName) {
         // in production application you would catch the exception
-        System.out.println(getTextValue(ele, tagName));
+//        System.out.println(getTextValue(ele, tagName));
         return Integer.parseInt(getTextValue(ele, tagName));
     }
 

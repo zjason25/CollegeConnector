@@ -16,11 +16,12 @@ public class school {
     private final String link_to_image;
     private final String type;
     private  List<celebrity> celebrities = new ArrayList<>();
+    private final String genre;
 
     public school(String school_id, String school_name ,float rating, int numVotes,
                   int net_cost, String description, int upper_SAT, int lower_SAT,
                   String link_to_website, String telephone,  String address,
-                  String link_to_image, String type, List<celebrity> celebrities) {
+                  String link_to_image, String type, List<celebrity> celebrities, String genre) {
         this.school_id = school_id;
         this.school_name = school_name;
         this.rating = rating;
@@ -35,6 +36,7 @@ public class school {
         this.link_to_image = link_to_image;
         this.type = type;
         this.celebrities = celebrities;
+        this.genre = genre;
     }
 
     public String get_school_id() {
@@ -72,7 +74,9 @@ public class school {
     public List<celebrity> get_celebrities() {
         return celebrities;
     }
-
+    public String get_genre() {
+        return genre;
+    }
     public String toString() {
 
         return "school_id:" + get_school_id() + ", " +
@@ -88,6 +92,7 @@ public class school {
                 "address:" + get_address() + ", " +
                 "link_to_image:" + get_link_to_image() + ","+
                 "celebrities:" + get_celebrities() + ","+
+                "gerne: "+get_genre()+","+
                 "type:" + get_type() + ".";
     }
 }

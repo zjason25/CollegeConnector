@@ -1,3 +1,4 @@
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -7,6 +8,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,26 +16,27 @@ public class location_school {
 
     List<temp_location> locations = new ArrayList<>();
     Document dom;
+    String query_string = "INSERT IGNORE schools_in_locations(id, location_id) VALUES ";
+    Integer fileParsed = 0;
 
     public void runExample() {
-
         // parse the xml file and get the dom object
         parseXmlFile();
 
         // get each employee element and create a Employee object
         parseDocument();
 
-        // iterate through the list and print the data
-        printData();
-
+        System.out.println("files parsed: " + fileParsed);
+        query_string += ";";
+        insertLocationIntoDatabase(query_string);
     }
 
     private void parseXmlFile() {
         // get the factory
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-
+        documentBuilderFactory.setValidating(false); // Disable validation
+        documentBuilderFactory.setExpandEntityReferences(false); // Disable entity expansion
         try {
-
             // using factory get an instance of document builder
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
@@ -58,12 +61,51 @@ public class location_school {
 
             // get the Employee object
             temp_location location = parseLocation(element);
-
+            fileParsed++;
             // add it to list
             locations.add(location);
+            updateQuery(location);
         }
     }
 
+    private void updateQuery(temp_location location) {
+        List<temp_school> temp_schools = location.getSchools();
+        for (temp_school school : temp_schools) {
+            String sql = String.format("('%s', '%s')", school.get_school_id(), location.getLocation_id());
+            query_string += sql;
+            if (fileParsed < 6795) {
+                query_string += ",";
+            }
+        }
+    }
+
+    private void insertLocationIntoDatabase(String query) {
+        String loginUser = "mytestuser";
+        String loginPasswd = "My6$Password";
+        String loginUrl = "jdbc:mysql://localhost:3306/collegedb";
+
+        try {
+            // load the MySQL JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+            try {
+                // create a connection to the database
+                Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                PreparedStatement statement = connection.prepareStatement(query_string);
+
+                int rowsAffected = statement.executeUpdate();
+                System.out.println("Duplicate rows: " + (fileParsed - rowsAffected));
+
+                // close the statement and connection
+                statement.close();
+                connection.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * It takes an employee Element, reads the values in, creates
      * an Employee object for return
@@ -84,6 +126,8 @@ public class location_school {
             temp_school new_school = parseSchool(schoolElement);
             schools.add(new_school);
         }
+
+
         // create a new Employee with the value read from the xml nodes
         return new temp_location(location_id,schools);
     }
@@ -92,8 +136,6 @@ public class location_school {
 
         String school_id = getTextValue(element, "school_id");
         String school_name = getTextValue(element, "school_name");
-        System.out.println(school_name);
-//        float rating = getFloatValue(element, "rating");
 
         // create a new Employee with the value read from the xml nodes
         return new temp_school(school_id,  school_name );
@@ -112,14 +154,11 @@ public class location_school {
             // here we expect only one <Name> would present in the <Employee>
             textVal = nodeList.item(0).getFirstChild().getNodeValue();
         }
-        System.out.println(textVal);
-
         return textVal;
     }
 
     private float getFloatValue(Element ele, String tagName) {
         // in production application you would catch the exception
-        System.out.println(getTextValue(ele, tagName));
         return Float.parseFloat(getTextValue(ele, tagName));
     }
 
@@ -129,18 +168,6 @@ public class location_school {
     private int getIntValue(Element ele, String tagName) {
         // in production application you would catch the exception
         return Integer.parseInt(getTextValue(ele, tagName));
-    }
-
-    /**
-     * Iterate through the list and print the
-     * content to console
-     */
-    private void printData() {
-
-        System.out.println("Total parsed " + locations.size() + " locations");
-        for (temp_location loc : locations) {
-            System.out.println("\t" + loc.toString());
-        }
     }
 
     public static void main(String[] args) {
