@@ -196,12 +196,12 @@ public class SchoolParser {
                     PreparedStatement statement = connection.prepareStatement(query_string);
 
                     int rowsAffected = statement.executeUpdate();
-                    System.out.println(rowsAffected + " records inserted");
+                    System.out.println(fileParsed + " records inserted");
                     Integer duplicate = 0;
-                    if (fileParsed > rowsAffected) {
-                        duplicate = fileParsed - rowsAffected;
-                    }
-                    System.out.println("Duplicate rows: " + duplicate);
+//                    if (fileParsed > rowsAffected) {
+//                        duplicate = fileParsed - rowsAffected;
+//                    }
+//                    System.out.println("Duplicate rows: " + duplicate);
                 // close the statement and connection
                     statement.close();
             }
