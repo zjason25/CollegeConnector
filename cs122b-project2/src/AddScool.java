@@ -210,7 +210,10 @@ public class AddScool extends HttpServlet {
                         responseJsonObject.addProperty("status", "fail");
                         responseJsonObject.addProperty("message", error_message);
                         System.out.println(error_message);
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
                     }
                     System.out.println("6");
                     statement.close();

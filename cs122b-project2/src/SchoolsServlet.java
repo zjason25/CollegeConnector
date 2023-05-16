@@ -115,6 +115,11 @@ public class SchoolsServlet extends HttpServlet {
             System.out.println("here");
             System.out.println(query);
             Statement statement = conn.createStatement();
+<<<<<<< HEAD
+=======
+            System.out.println("21");
+
+>>>>>>> master
             ResultSet rs = statement.executeQuery(query);
 
             System.out.println("22");

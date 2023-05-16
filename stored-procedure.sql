@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 use collegdb;
+=======
+use collegedb;
+>>>>>>> master
 #location
 DELIMITER $$
 CREATE PROCEDURE add_location (

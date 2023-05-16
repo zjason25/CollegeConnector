@@ -77,6 +77,7 @@ We used prepared statements in the following files:
 - EmployeeLoginServlet
 
 ### NewFileName Explanation
+<<<<<<< HEAD
 File MyDomParserExample is our dom parser for location xml
 File SchoolParser is our dom parser for school xml
 File location_school is our dom parser for location_school xm
@@ -85,4 +86,18 @@ File location_school is our dom parser for location_school xm
 ### Contribution
 Yanran Wang did TASK 4 and 5. She was also responsible for creating our three xml files for our custom domain and writing parsers for all three xml files.
 Jason Zheng did Task 1 to 3 and he is also responsible for parser optimization.
+=======
+File LocationParser is our dom parser for location xml which contains information about locations.
+File SchoolParser is our dom parser for school xml which contains information about schools.
+File SchoolMap is our dom parser for location_school xml which contains information about location_school relationship.
+
+### Custom Domain Further Explanation
+We have 12000 school info in our school xml file. The total file size is about 20MB. Besides regular school data we also added a new data, celebrity alumni for each school as sub-directory. 
+We have 6800 location info in our location xml file
+
+### Contribution
+Yanran Wang worked on TASK 3, 4, 5, and 6. She encrypted password, implemented a Dashboard using Stored Procedure, generated our three xml files for our custom domain, wrote parsers for all three xml files and helped with optimization. 
+
+Jason Zheng worked on Task 1 to 3 and Domain registration. He also helped with parser optimization.
+>>>>>>> master
 

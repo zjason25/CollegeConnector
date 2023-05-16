@@ -62,6 +62,19 @@ CREATE TABLE user(
   ,FOREIGN KEY (preference_id) REFERENCES preference(id)
 );
 
+<<<<<<< HEAD
+=======
+CREATE TABLE user_backup(
+                   id INTEGER AUTO_INCREMENT PRIMARY KEY
+  ,firstName    VARCHAR(50) NOT NULL
+  ,lastName  VARCHAR(50) NOT NULL
+  ,preference_id VARCHAR(22) NOT NULL
+  ,email  VARCHAR(50) NOT NULL
+  ,password VARCHAR(20) NOT NULL
+  ,FOREIGN KEY (preference_id) REFERENCES preference(id)
+);
+
+>>>>>>> master
 CREATE TABLE recommendation(
    id INTEGER AUTO_INCREMENT PRIMARY KEY 
   ,user_id INTEGER
@@ -79,3 +92,26 @@ CREATE TABLE ratings(
   ,numVotes  INTEGER
   ,FOREIGN KEY (school_id) REFERENCES school(id)
 );
+<<<<<<< HEAD
+=======
+
+CREATE TABLE employees (
+  email VARCHAR(50) PRIMARY KEY
+  ,password VARCHAR(50) NOT NULL
+  ,fullname VARCHAR(100)
+);
+
+CREATE TABLE celebrity(
+  id  INTEGER AUTO_INCREMENT PRIMARY KEY
+  ,name            VARCHAR(40)
+  ,net_worth          INTEGER
+  ,industry       VARCHAR(35)
+);
+
+CREATE TABLE celebrities_in_schools(
+    celebrity_id  INTEGER
+  ,school_id VARCHAR(22)
+  ,FOREIGN KEY (celebrity_id) REFERENCES celebrity(id)
+  ,FOREIGN KEY (school_id) REFERENCES school(id)
+);
+>>>>>>> master

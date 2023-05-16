@@ -9,14 +9,20 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.List;
 import java.util.HashMap;
+=======
+import java.util.HashMap;
+import java.util.List;
+>>>>>>> master
 
 public class SchoolParser {
 
     List<school> schools = new ArrayList<>();
     Document dom;
     Integer fileParsed = 0;
+<<<<<<< HEAD
     Integer recordInserted = 0;
 //    ArrayList<String> insertStatements = new ArrayList<String>();
 //    String query_string = "INSERT IGNORE school(id,name,rating,numVotes,net_cost,description,upper_SAT,lower_SAT,link_to_website,telephone,address,link_to_image) VALUES\n";
@@ -25,17 +31,29 @@ public class SchoolParser {
 //    String celebrity = "INSERT IGNORE celebrity(name,net_worth,industry) VALUES\n";
 //    String celebrity_in_school = "INSERT IGNORE celebrities_in_schools(celebrity_id,school_id) VALUES ((SELECT MAX(id) FROM celebrity)\n";
     HashMap<String, Integer> map = new HashMap<String, Integer>();
+=======
+
+    HashMap<String, Integer> map = check_map();
+>>>>>>> master
     String query_school = "INSERT IGNORE school(id,name,rating,numVotes,net_cost,description,upper_SAT,lower_SAT,link_to_website,telephone,address,link_to_image) VALUES ";
     String query_genre = "INSERT IGNORE genre(fullname) values ";
     String query_genres_in_schools = "INSERT IGNORE genres_in_schools (genre_id, school_id) values ";
     String query_celebrity = "INSERT IGNORE celebrity(name,net_worth,industry) values ";
     String query_celebrities_in_schools = "INSERT IGNORE celebrities_in_schools(celebrity_id,school_id) VALUES ";
     int celebrity_counter = 1;
+<<<<<<< HEAD
     int genre_id_counter = 0;
+=======
+    int genre_id_counter = check_id();
+>>>>>>> master
 
     public void runExample() {
 
         parseXmlFile();
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
         parseDocument();
 
         query_genre = query_genre.substring(0, query_genre.length() - 1);
@@ -44,7 +62,10 @@ public class SchoolParser {
         query_celebrity = query_celebrity.substring(0, query_celebrity.length() - 1);
         query_celebrities_in_schools = query_celebrities_in_schools.substring(0, query_celebrities_in_schools.length() - 1);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         query_school += ";";
         query_genre += ";";
         query_genres_in_schools += ";";
@@ -52,6 +73,7 @@ public class SchoolParser {
         query_celebrities_in_schools += ";";
 
         System.out.println("files parsed: " + fileParsed);
+<<<<<<< HEAD
 
         executeQuery(query_school);
         executeQuery(query_genre);
@@ -59,6 +81,14 @@ public class SchoolParser {
         executeQuery(query_celebrity);
         executeQuery(query_celebrities_in_schools);
 
+=======
+        insertSchoolIntoDatabase(query_school, "school");
+        if(!query_genre.equals("INSERT IGNORE genre(fullname) values;"))
+            insertSchoolIntoDatabase(query_genre, "genre");
+        insertSchoolIntoDatabase(query_genres_in_schools, "genres_in_schools");
+        insertSchoolIntoDatabase(query_celebrity, "celebrity");
+        insertSchoolIntoDatabase(query_celebrities_in_schools, "celebrities_in_schools");
+>>>>>>> master
     }
     private void parseXmlFile() {
         // get the factory
@@ -93,16 +123,23 @@ public class SchoolParser {
             updateQuery(school);
             // add it to list
             schools.add(school);
+<<<<<<< HEAD
 //            insertLocationIntoDatabase(school);
+=======
+>>>>>>> master
         }
     }
 
     private void updateQuery(school school) {
         query_school += " ('" + school.get_school_id() + "', '" + school.get_school_name() +"', " + school.get_rating() + ", "  + school.get_numVotes() + ", "+ school.get_net_cost() +", '"+
                 school.get_description() + "', " + school.get_upper_SAT() +", " + school.get_lower_SAT() +", '" +school.get_link_to_website() + "', '" + school.get_telephone() + "', '" +
+<<<<<<< HEAD
                 school.get_address()+ "', '" + school.get_link_to_image()+"'),\n";
 
         ArrayList<String> temp = new ArrayList<String>();
+=======
+                school.get_address()+ "', '" + school.get_link_to_image()+"'),";
+>>>>>>> master
         if (map.containsKey(school.get_genre())) {
             query_genres_in_schools += String.format(" (%s, '%s'),",map.get(school.get_genre()),school.get_school_id() );
         } else {
@@ -111,15 +148,28 @@ public class SchoolParser {
             query_genres_in_schools += String.format(" (%s, '%s'),",Integer.toString(genre_id_counter),school.get_school_id() );
             genre_id_counter++;
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
         List<celebrity> celebrities = school.get_celebrities();
         for(celebrity celebrity:celebrities){
             query_celebrity += String.format(" ('%s',%s,'%s'),",celebrity.get_name(), celebrity.get_net_worth(),celebrity.get_industry() );
             query_celebrities_in_schools += String.format(" (%s, '%s'),", Integer.toString(celebrity_counter), school.get_school_id() );;
+<<<<<<< HEAD
             celebrity_counter ++;
         };
     }
 
     private void executeQuery(String query) {
+=======
+            celebrity_counter++;
+        };
+    }
+
+    private int check_id() {
+        int res = 0;
+>>>>>>> master
         String loginUser = "mytestuser";
         String loginPasswd = "My6$Password";
         String loginUrl = "jdbc:mysql://localhost:3306/collegedb";
@@ -131,20 +181,40 @@ public class SchoolParser {
                 // create a connection to the database
                 Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
                 connection.setAutoCommit(false);
+<<<<<<< HEAD
                 PreparedStatement statement = connection.prepareStatement(query);
 //                System.out.println(query);
                 statement.executeUpdate(query);
                 int rowsAffected = statement.executeUpdate();
                 System.out.println("Rows inserted: " + rowsAffected);
+=======
+                String query = "Select max(id) from genre;";
+                PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet rs = statement.executeQuery(query);
+                while(rs.next()){
+                    res = rs.getInt(1);
+                }
+                res+=1;
+
+                statement.close();
+                connection.close();
+>>>>>>> master
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+<<<<<<< HEAD
     }
 
     private void insertLocationIntoDatabase(school school) {
+=======
+        return res;
+    }
+    private HashMap<String, Integer> check_map() {
+        HashMap<String, Integer> res = new HashMap<String, Integer>();
+>>>>>>> master
         String loginUser = "mytestuser";
         String loginPasswd = "My6$Password";
         String loginUrl = "jdbc:mysql://localhost:3306/collegedb";
@@ -155,6 +225,7 @@ public class SchoolParser {
             try {
                 // create a connection to the database
                 Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+<<<<<<< HEAD
 
                 String query1 =  String.format("SELECT COUNT(*) FROM genre WHERE fullname ='%s';",school.get_school_id() );
                 PreparedStatement statement1 = connection.prepareStatement(query1);
@@ -200,6 +271,53 @@ public class SchoolParser {
 //                    insertStatements.add(query6);
 
                 }
+=======
+                connection.setAutoCommit(false);
+                String query = "Select * from genre;";
+                PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet rs = statement.executeQuery(query);
+                while(rs.next()){
+                    res.put(rs.getString("fullname"),rs.getInt("id")) ;
+                }
+
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    private void insertSchoolIntoDatabase(String query_string, String table) {
+        String loginUser = "mytestuser";
+        String loginPasswd = "My6$Password";
+        String loginUrl = "jdbc:mysql://localhost:3306/collegedb";
+
+        try {
+            // load the MySQL JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            // create a connection to the database
+            try {
+                // create a connection to the database
+                Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+//                System.out.println(query_string);
+                PreparedStatement statement = connection.prepareStatement(query_string);
+
+                int rowsAffected = statement.executeUpdate();
+                System.out.println(rowsAffected + " records inserted into " + table);
+                Integer duplicate = 0;
+                if (fileParsed > rowsAffected) {
+                    duplicate = fileParsed - rowsAffected;
+                }
+                System.out.println("Duplicate rows: " + duplicate);
+
+                // close the statement and connection
+                statement.close();
+>>>>>>> master
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -208,6 +326,10 @@ public class SchoolParser {
             e.printStackTrace();
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     private school parseSchool(Element element) {
         String school_id = getTextValue(element, "school_id");
         String school_name = getTextValue(element, "school_name");

@@ -63,6 +63,11 @@ public class SearchServlet extends HttpServlet {
                     "JOIN genres_in_schools AS gis ON gis.school_id = s.id\n" +
                     "JOIN genre AS g ON g.id = gis.genre_id\n" +
                     "JOIN location AS l ON l.location_id = sil.location_id\n";
+<<<<<<< HEAD
+=======
+            String sub_query = "";
+
+>>>>>>> master
             if(browse_way2 != null && browse_way2.length()==1) {
                 school = browse_way2+"_";
             }
@@ -77,6 +82,7 @@ public class SearchServlet extends HttpServlet {
 
             if(school.length()>0){
                 if(school.length()==2 && school.substring(1,2).equals("_")){
+<<<<<<< HEAD
                     query += String.format("WHERE s.name like '%s' and s.name like '%s'",school.substring(0,1)+"%",school.substring(0,1).toLowerCase()+"%");
                 }
                 else {
@@ -92,6 +98,44 @@ public class SearchServlet extends HttpServlet {
             if(other.length()>0){
                 query += String.format(" and g.fullname = '%s'",genre);
             }
+=======
+                    sub_query += String.format("WHERE s.name like '%s' and s.name like '%s'",school.substring(0,1)+"%",school.substring(0,1).toLowerCase()+"%");
+                }
+                else {
+                    sub_query += String.format("WHERE s.name LIKE '%s'", school);
+                }
+            }
+            if(location.length()>0){
+                if(location.length()>0&&!location.equals("null")){
+                    if(sub_query.length()==0){
+                        sub_query += "WHERE ";
+                    }
+                    else{
+                        sub_query += " and ";
+                    }
+                    sub_query += String.format("l.state_full LIKE '%s'",location);
+                }
+            }
+            if(other.length()>0){
+                if(sub_query.length()==0){
+                    sub_query += "WHERE ";
+                }
+                else{
+                    sub_query += " and ";
+                }
+                sub_query += String.format("s.description LIKE '%s'",other);
+            }
+            if(other.length()>0){
+                if(sub_query.length()==0){
+                    sub_query += "WHERE ";
+                }
+                else{
+                    sub_query += " and ";
+                }
+                sub_query += String.format("g.fullname = '%s'",genre);
+            }
+            query = query+sub_query;
+>>>>>>> master
             query += ";";
 //                    String.format("SELECT COUNT() AS num from school as s, schools_in_locations as sil, genre as g, genres_in_schools as gis, location as l " +
 //                    "where g.id = gis.genre_id and gis.school_id = s.id and l.location_id = sil.location_id and sil.id = s.id and " +
