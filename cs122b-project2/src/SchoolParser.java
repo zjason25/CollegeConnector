@@ -45,13 +45,24 @@ public class SchoolParser {
         query_celebrity += ";";
         query_celebrities_in_schools += ";";
 
+        ArrayList<String> queries = new ArrayList<>();
+        queries.add(query_school);
+        if(!query_genre.equals("INSERT IGNORE genre(fullname) values;")) {
+            queries.add(query_genre);
+        }
+        queries.add(query_genres_in_schools);
+        queries.add(query_celebrity);
+        queries.add(query_celebrities_in_schools);
+
+
         System.out.println("files parsed: " + fileParsed);
-        insertSchoolIntoDatabase(query_school, "school");
-        if(!query_genre.equals("INSERT IGNORE genre(fullname) values;"))
-            insertSchoolIntoDatabase(query_genre, "genre");
-        insertSchoolIntoDatabase(query_genres_in_schools, "genres_in_schools");
-        insertSchoolIntoDatabase(query_celebrity, "celebrity");
-        insertSchoolIntoDatabase(query_celebrities_in_schools, "celebrities_in_schools");
+        insertSchoolIntoDatabase(queries);
+
+//        insertSchoolIntoDatabase(query_school, "school");
+
+//        insertSchoolIntoDatabase(query_genres_in_schools, "genres_in_schools");
+//        insertSchoolIntoDatabase(query_celebrity, "celebrity");
+//        insertSchoolIntoDatabase(query_celebrities_in_schools, "celebrities_in_schools");
     }
     private void parseXmlFile() {
         // get the factory
@@ -172,7 +183,7 @@ public class SchoolParser {
         return res;
     }
 
-    private void insertSchoolIntoDatabase(String query_string, String table) {
+    private void insertSchoolIntoDatabase(ArrayList<String> queries) {
         String loginUser = "mytestuser";
         String loginPasswd = "My6$Password";
         String loginUrl = "jdbc:mysql://localhost:3306/collegedb";
@@ -186,18 +197,19 @@ public class SchoolParser {
                 // create a connection to the database
                 Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 //                System.out.println(query_string);
-                PreparedStatement statement = connection.prepareStatement(query_string);
+                for (String query_string : queries) {
+                    PreparedStatement statement = connection.prepareStatement(query_string);
 
-                int rowsAffected = statement.executeUpdate();
-                System.out.println(rowsAffected + " records inserted into " + table);
-                Integer duplicate = 0;
-                if (fileParsed > rowsAffected) {
-                    duplicate = fileParsed - rowsAffected;
-                }
-                System.out.println("Duplicate rows: " + duplicate);
-
+                    int rowsAffected = statement.executeUpdate();
+                    System.out.println(rowsAffected + " records inserted");
+                    Integer duplicate = 0;
+                    if (fileParsed > rowsAffected) {
+                        duplicate = fileParsed - rowsAffected;
+                    }
+                    System.out.println("Duplicate rows: " + duplicate);
                 // close the statement and connection
-                statement.close();
+                    statement.close();
+            }
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
