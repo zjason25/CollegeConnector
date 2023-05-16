@@ -22,9 +22,9 @@ public class SchoolParser {
     String query_school = "INSERT IGNORE school(id,name,rating,numVotes,net_cost,description,upper_SAT,lower_SAT,link_to_website,telephone,address,link_to_image) VALUES ";
     String query_genre = "INSERT IGNORE genre(fullname) values ";
     String query_genres_in_schools = "INSERT IGNORE genres_in_schools (genre_id, school_id) values ";
-    String query_celebrity = "INSERT IGNORE celebrity(name,net_worth,industry) values ";
-    String query_celebrities_in_schools = "INSERT IGNORE celebrities_in_schools(celebrity_id,school_id) VALUES ";
-    int celebrity_counter = 1;
+//    String query_celebrity = "INSERT IGNORE celebrity(name,net_worth,industry) values ";
+//    String query_celebrities_in_schools = "INSERT IGNORE celebrities_in_schools(celebrity_id,school_id) VALUES ";
+//    int celebrity_counter = 1;
     int genre_id_counter = check_id();
 
     public void runExample() {
@@ -36,14 +36,14 @@ public class SchoolParser {
         query_genre = query_genre.substring(0, query_genre.length() - 1);
         query_school = query_school.substring(0, query_school.length() - 1);
         query_genres_in_schools = query_genres_in_schools.substring(0, query_genres_in_schools.length() - 1);
-        query_celebrity = query_celebrity.substring(0, query_celebrity.length() - 1);
-        query_celebrities_in_schools = query_celebrities_in_schools.substring(0, query_celebrities_in_schools.length() - 1);
+//        query_celebrity = query_celebrity.substring(0, query_celebrity.length() - 1);
+//        query_celebrities_in_schools = query_celebrities_in_schools.substring(0, query_celebrities_in_schools.length() - 1);
 
         query_school += ";";
         query_genre += ";";
         query_genres_in_schools += ";";
-        query_celebrity += ";";
-        query_celebrities_in_schools += ";";
+//        query_celebrity += ";";
+//        query_celebrities_in_schools += ";";
 
         ArrayList<String> queries = new ArrayList<>();
         queries.add(query_school);
@@ -51,18 +51,13 @@ public class SchoolParser {
             queries.add(query_genre);
         }
         queries.add(query_genres_in_schools);
-        queries.add(query_celebrity);
-        queries.add(query_celebrities_in_schools);
+//        queries.add(query_celebrity);
+//        queries.add(query_celebrities_in_schools);
 
 
         System.out.println("files parsed: " + fileParsed);
         insertSchoolIntoDatabase(queries);
 
-//        insertSchoolIntoDatabase(query_school, "school");
-
-//        insertSchoolIntoDatabase(query_genres_in_schools, "genres_in_schools");
-//        insertSchoolIntoDatabase(query_celebrity, "celebrity");
-//        insertSchoolIntoDatabase(query_celebrities_in_schools, "celebrities_in_schools");
     }
     private void parseXmlFile() {
         // get the factory
@@ -113,12 +108,12 @@ public class SchoolParser {
             genre_id_counter++;
         }
 
-        List<celebrity> celebrities = school.get_celebrities();
-        for(celebrity celebrity:celebrities){
-            query_celebrity += String.format(" ('%s',%s,'%s'),",celebrity.get_name(), celebrity.get_net_worth(),celebrity.get_industry() );
-            query_celebrities_in_schools += String.format(" (%s, '%s'),", Integer.toString(celebrity_counter), school.get_school_id() );;
-            celebrity_counter++;
-        };
+//        List<celebrity> celebrities = school.get_celebrities();
+//        for(celebrity celebrity:celebrities){
+//            query_celebrity += String.format(" ('%s',%s,'%s'),",celebrity.get_name(), celebrity.get_net_worth(),celebrity.get_industry() );
+//            query_celebrities_in_schools += String.format(" (%s, '%s'),", Integer.toString(celebrity_counter), school.get_school_id() );;
+//            celebrity_counter++;
+//        };
     }
 
     private int check_id() {
@@ -243,11 +238,11 @@ public class SchoolParser {
         List<celebrity> celebrities = new ArrayList<>();
 
         // parse each Hobby element and add it to the list
-        for (int i = 0; i < celebritiesNodes.getLength(); i++) {
-            Element schoolElement = (Element) celebritiesNodes.item(i);
-            celebrity new_celebrity = parseCelebrity(schoolElement);
-            celebrities.add(new_celebrity);
-        }
+//        for (int i = 0; i < celebritiesNodes.getLength(); i++) {
+//            Element schoolElement = (Element) celebritiesNodes.item(i);
+//            celebrity new_celebrity = parseCelebrity(schoolElement);
+//            celebrities.add(new_celebrity);
+//        }
 
         // create a new Employee with the value read from the xml nodes
         return new school(school_id,  school_name , rating,  numVotes,
