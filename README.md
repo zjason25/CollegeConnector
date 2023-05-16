@@ -85,8 +85,14 @@ File SchoolMap is our dom parser for location_school xml which contains informat
 We have 12000 school info in our school xml file. The total file size is about 20MB. Besides regular school data we also added a new data, celebrity alumni for each school as sub-directory. 
 We have 6800 location info in our location xml file
 
+### Our new domain name is:
+collegecompasss.com (with 3 "s").
+
+### Link to our [demo](https://youtu.be/xGNBrtFa-HI)
+
 ### Contribution
-Yanran Wang worked on TASK 3, 4, 5, and 6. She encrypted password, implemented a Dashboard using Stored Procedure, generated our three xml files for our custom domain, wrote parsers for all three xml files and helped with optimization. 
+Yanran Wang worked on TASK 3, 4, 5, and 6. She encrypted password, implemented a Dashboard using Stored Procedure, generated our three xml files for our custom domain, wrote parsers for all three xml files and helped with optimization.
 
-Jason Zheng worked on Task 1 to 3 and Domain registration. He also helped with parser optimization.
+Jason Zheng worked on Task 1 to 3 and Domain registration. He also helped with parser optimization, project deployment, and demo recording.
 
+TA [Xinyuan](https://github.com/aglinxinyuan) and [Yicong](https://github.com/Yicong-Huang) provided examples on [reCaptcha](https://github.com/UCI-Chenli-teaching/cs122b-project3-recaptcha-example), [encryption](https://github.com/UCI-Chenli-teaching/cs122b-project3-encryption-example), and [DOM parser](https://github.com/UCI-Chenli-teaching/cs122b-project3-DomParser-example).
