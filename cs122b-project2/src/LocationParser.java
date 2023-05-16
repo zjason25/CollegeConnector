@@ -96,12 +96,12 @@ public class LocationParser {
                 PreparedStatement statement = connection.prepareStatement(query_string);
                 // execute the SQL statement
                 int rowsAffected = statement.executeUpdate();
-                System.out.println(rowsAffected + " records inserted into location");
-                Integer duplicate = 0;
-                if (fileParsed > rowsAffected) {
-                    duplicate = fileParsed - rowsAffected;
-                }
-                System.out.println("Duplicate rows: " + duplicate);
+                System.out.println(fileParsed + " records inserted into location");
+//                Integer duplicate = 0;
+//                if (fileParsed > rowsAffected) {
+//                    duplicate = fileParsed - rowsAffected;
+//                }
+//                System.out.println("Duplicate rows: " + duplicate);
 
                 // close the statement and connection
                 statement.close();
