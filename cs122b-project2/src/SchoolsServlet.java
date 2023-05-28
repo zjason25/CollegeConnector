@@ -44,17 +44,10 @@ public class SchoolsServlet extends HttpServlet {
         String fulltext = request.getParameter("fulltext");
         String autocomplete = request.getParameter("autocomplete");
 
-        System.out.println(school);
-        System.out.println(location);
-        System.out.println(other);
-        System.out.println(order);
-        System.out.println(genre);
-        System.out.println(fulltext);
-        System.out.println(autocomplete);
-
 
         int pagenum =  Integer.parseInt(request.getParameter("pagenum"));
         int whichpage =  Integer.parseInt(request.getParameter("whichpage"));
+
 
         // The log message can be found in localhost log
         request.getServletContext().log("getting query: " + school+location+other);
@@ -89,9 +82,6 @@ public class SchoolsServlet extends HttpServlet {
             }
         }
 
-        System.out.println("1");
-
-        System.out.println("2");
 
         if(other.length()>0&&!location.equals("null")){
             if(sub_query.length()==0){
@@ -102,7 +92,7 @@ public class SchoolsServlet extends HttpServlet {
             }
             sub_query += String.format("l.state_full LIKE '%s'",location);
         }
-        System.out.println("3");
+
         if(other.length()>0&&!other.equals("null")){
             if(sub_query.length()==0){
                 sub_query += "WHERE ";
@@ -112,7 +102,7 @@ public class SchoolsServlet extends HttpServlet {
             }
             sub_query += String.format("s.description LIKE '%s'",other);
         }
-        System.out.println("4");
+
         if(genre.length()>0&&!genre.equals("null")){
             if(sub_query.length()==0){
                 sub_query += "WHERE ";
@@ -122,29 +112,26 @@ public class SchoolsServlet extends HttpServlet {
             }
             sub_query += String.format("g.fullname = '%s'",genre);
         }
-        System.out.println("5");
+
         if(order.length()>6&&!order.equals("null")) {
             sub_query += "\nGROUP BY name\n";
             sub_query += order;
         }
         else if (order.length()>0&&!order.equals("null")){
-            System.out.println("6");
+
             sub_query += "\nGROUP BY name\n";
             sub_query += String.format("ORDER BY s.name %s",order);
         }
         else {
-            System.out.println("7");
             sub_query += "\nGROUP BY name";
             if (autocomplete.length()>0&&!autocomplete.equals("null")) {
                 sub_query += "\nLIMIT 10";
             }
         }
 
-
         sub_query += ";";
         query = query+sub_query;
         // Output stream to STDOUT
-        System.out.println(query);
         PrintWriter out = response.getWriter();
 
         // Get a connection from dataSource and let resource manager close the connection after usage.
@@ -174,12 +161,10 @@ public class SchoolsServlet extends HttpServlet {
                     String safety = rs.getString("safety");
                     String telephone = rs.getString("telephone");
                     String location_id = rs.getString("location_id");
-
                     // Create a JsonObject based on the data we retrieve from rs
                     JsonObject jsonObject = new JsonObject();
 
                     if (autocomplete.equals("true")) {
-                        System.out.println("autocomplete true!");
                         jsonObject.addProperty("value", school_name);
                         jsonObject.addProperty("data", school_id);
                     }
@@ -213,7 +198,6 @@ public class SchoolsServlet extends HttpServlet {
             response.setStatus(200);
 
         } catch (Exception e) {
-
             // Write error message JSON object to output
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("errorMessage", e.getMessage());
@@ -224,8 +208,5 @@ public class SchoolsServlet extends HttpServlet {
         } finally {
             out.close();
         }
-
-        // Always remember to close db connection after usage. Here it's done by try-with-resources
-
     }
 }

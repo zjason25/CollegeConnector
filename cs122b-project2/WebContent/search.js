@@ -26,11 +26,11 @@ function handleSearchResult(resultDataString) {
     // If search succeeds, it will redirect the user to index.html
     if (resultDataJson["status"] === "success") {
         if (resultDataJson['school'].length > 0) {
-            localStorage.setItem("lstLink", JSON.stringify('school_list.html?school=' + resultDataJson['school'] + "&location=" + resultDataJson['location'] + "&other=" + resultDataJson['other'] + "&order=" + resultDataJson['order'] + "&genre=" + resultDataJson['genre'] + "&pagenum=" + "20" + "&whichpage=0" + "&groupby=school" + "&distinct=true" + "&fulltext=false"));
-            window.location.replace('school_list.html?school=' + resultDataJson['school'] + "&location=" + resultDataJson['location'] + "&other=" + resultDataJson['other'] + "&order=" + resultDataJson['order'] + "&genre=" + resultDataJson['genre'] + "&pagenum=" + "20" + "&whichpage=0" + "&groupby=school" + "&distinct=true" + "&fulltext=false");
+            localStorage.setItem("lstLink", JSON.stringify('school_list.html?school=' + resultDataJson['school'] + "&location=" + resultDataJson['location'] + "&other=" + resultDataJson['other'] + "&order=" + resultDataJson['order'] + "&genre=" + resultDataJson['genre'] + "&pagenum=20" + "&whichpage=0" + "&fulltext=false"));
+            window.location.replace('school_list.html?school=' + resultDataJson['school'] + "&location=" + resultDataJson['location'] + "&other=" + resultDataJson['other'] + "&order=" + resultDataJson['order'] + "&genre=" + resultDataJson['genre'] + "&pagenum=20" + "&whichpage=0" + "&fulltext=false");
         } else {
-            localStorage.setItem("lstLink", JSON.stringify('school_list.html?school=' + resultDataJson['fulltext_school'] + "&location=" + resultDataJson['location'] + "&other=" + resultDataJson['other'] + "&order=" + resultDataJson['order'] + "&genre=" + resultDataJson['genre'] + "&pagenum=" + "20" + "&whichpage=0" + "&groupby=school" + "&distinct=true" + "&fulltext=true"));
-            window.location.replace('school_list.html?school=' + resultDataJson['fulltext_school'] + "&location=" + resultDataJson['location'] + "&other=" + resultDataJson['other'] + "&order=" + resultDataJson['order'] + "&genre=" + resultDataJson['genre'] + "&pagenum=" + "20" + "&whichpage=0" + "&groupby=school" + "&distinct=true" + "&fulltext=true");
+            localStorage.setItem("lstLink", JSON.stringify('school_list.html?school=' + resultDataJson['fulltext_school'] + "&location=" + resultDataJson['location'] + "&other=" + resultDataJson['other'] + "&order=" + resultDataJson['order'] + "&genre=" + resultDataJson['genre'] + "&pagenum=20" + "&whichpage=0" + "&fulltext=true"));
+            window.location.replace('school_list.html?school=' + resultDataJson['fulltext_school'] + "&location=" + resultDataJson['location'] + "&other=" + resultDataJson['other'] + "&order=" + resultDataJson['order'] + "&genre=" + resultDataJson['genre'] + "&pagenum=20" + "&whichpage=0" + "&fulltext=true");
         }
     }
     else {

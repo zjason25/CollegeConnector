@@ -28,9 +28,13 @@ public class MovieListActivity extends AppCompatActivity {
         // shows the items in the movieList using MovieListViewAdapter class
         MovieListViewAdapter adapter = new MovieListViewAdapter(this, movies);
         ListView listView = findViewById(R.id.list);
+
+
         // lets the adapater control the response from the list
         listView.setAdapter(adapter);
-        // sets onclick listener:
+
+
+//         sets onclick listener:
         listView.setOnItemClickListener((parent, view, position, id) -> {
             // gets movie using position
             Movie movie = movies.get(position);

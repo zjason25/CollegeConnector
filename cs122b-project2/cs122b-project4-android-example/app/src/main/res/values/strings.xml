@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fabflix Mobile</string>
+    <string name="app_name">CollegeConnector</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Username</string>
     <string name="prompt_password">Password</string>
@@ -10,4 +10,7 @@
     <string name="invalid_password">Password must be >2 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="fabflix">Fabflix</string>
+    <string name="CollegeConnector">CollegeConnector</string>
+    <string name="search">SEARCH</string>
+    <string name="college_name">college name</string>
 </resources>
