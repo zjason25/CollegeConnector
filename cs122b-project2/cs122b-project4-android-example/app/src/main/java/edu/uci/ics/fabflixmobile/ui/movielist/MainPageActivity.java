@@ -90,13 +90,14 @@ public class MainPageActivity extends AppCompatActivity {
                             JSONObject school = jsonArray.getJSONObject(i);
                             String name = school.getString("school_name");
                             String rating = school.getString("school_rating");
+                            String description = school.getString("school_dis");
                             String city = school.getString("school_city");
                             String state = school.getString("school_state");
                             String location = city + ", " + state;
                             String website = school.getString("link_to_website");
                             String school_genre = school.getString("school_genre");
                             String telephone = school.getString("telephone");
-                            schools.add(new School(name, rating, location, website, school_genre, telephone));
+                            schools.add(new School(name, rating, description, location, website, school_genre, telephone));
                         }
                             Toast.makeText(getApplicationContext(), "Search success!", Toast.LENGTH_SHORT).show();
                             Toast.makeText(getApplicationContext(), schools.toArray().length + " results returned", Toast.LENGTH_SHORT).show();

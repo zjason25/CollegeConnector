@@ -24,6 +24,7 @@ public class SingleSchoolActivity extends AppCompatActivity {
         pagenum = getIntent().getIntExtra("pagenum", 1);
 
         TextView nameTextView = findViewById(R.id.school_name);
+        TextView descriptionTextView = findViewById(R.id.school_description);
         TextView ratingTextView = findViewById(R.id.school_rating);
         TextView locationTextView = findViewById(R.id.school_location);
         TextView websiteTextView = findViewById(R.id.school_website);
@@ -31,11 +32,12 @@ public class SingleSchoolActivity extends AppCompatActivity {
         TextView telephoneTextView = findViewById(R.id.school_telephone);
 
         nameTextView.setText(school.getName());
+        descriptionTextView.setText("Description: " + school.getDescription());
         ratingTextView.setText("Rating: " + school.getRating());
-        locationTextView.setText(school.getLocation());
-        websiteTextView.setText(school.getWebsite());
-        genreTextView.setText(school.getGenre());
-        telephoneTextView.setText(school.getTelephone());
+        locationTextView.setText("Location: " + school.getLocation());
+        websiteTextView.setText("Website: " + school.getWebsite());
+        genreTextView.setText("Genre: " + school.getGenre());
+        telephoneTextView.setText("School contact: " + school.getTelephone());
     }
     @Override
     public void onBackPressed() {

@@ -11,15 +11,18 @@ public class School implements Serializable{
     private final String website;
     private final String genre;
     private final String telephone;
+    private final String description;
 
 
-    public School(String name, String rating, String location, String website, String genre, String telephone) {
+    public School(String name, String rating, String descriptino, String location, String website, String genre, String telephone) {
         this.name = name;
         this.rating = rating;
+        this.description = descriptino;
         this.location = location;
         this.website = website;
         this.genre = genre;
         this.telephone = telephone;
+
     }
 
     public String getName() {
@@ -32,4 +35,5 @@ public class School implements Serializable{
     public  String getWebsite() {return website;}
     public String getGenre() {return genre;}
     public String getTelephone() {return telephone;}
+    public String getDescription() {return description;}
 }
