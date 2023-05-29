@@ -29,9 +29,9 @@ Link to the [demo](https://youtu.be/RS0CCIPbIco)
 
 Our TA [Xinyuan](https://github.com/aglinxinyuan) and [Yicong](https://github.com/Yicong-Huang) for providing the *cs122b-project1-api-example* from which we can learn build our api for this project.
 
-## [Project 2 Addition]: 
+## [Project 2 Addition]:
 ### Login
-In project 2, we added a sign-in page, a feature that prevents users from accessing any other pages unless signed in. 
+In project 2, we added a sign-in page, a feature that prevents users from accessing any other pages unless signed in.
 
 ### Search/Browse
 We implemented substring matching in our keyword search by using the LIKE operator in MySQL. Additionally, the website also now supports browsing colleges by their initial letters and type. For instance, a drop-down feature allows the user to select "Public University" and initiate search from there.
@@ -82,7 +82,7 @@ File SchoolParser is our dom parser for school xml which contains information ab
 File SchoolMap is our dom parser for location_school xml which contains information about location_school relationship.
 
 ### Custom Domain Further Explanation
-We have 12000 school info in our school xml file. The total file size is about 20MB. Besides regular school data we also added a new data, celebrity alumni for each school as sub-directory. 
+We have 12000 school info in our school xml file. The total file size is about 20MB. Besides regular school data we also added a new data, celebrity alumni for each school as sub-directory.
 We have 6800 location info in our location xml file
 
 ### Our new domain name is:
@@ -96,3 +96,21 @@ Yanran Wang worked on TASK 3, 4, 5, and 6. She encrypted password, implemented a
 Jason Zheng worked on Task 1 to 3 and Domain registration. He also helped with parser optimization, project deployment, and demo recording.
 
 TA [Xinyuan](https://github.com/aglinxinyuan) and [Yicong](https://github.com/Yicong-Huang) provided examples on [reCaptcha](https://github.com/UCI-Chenli-teaching/cs122b-project3-recaptcha-example), [encryption](https://github.com/UCI-Chenli-teaching/cs122b-project3-encryption-example), and [DOM parser](https://github.com/UCI-Chenli-teaching/cs122b-project3-DomParser-example).
+
+## Project 4 Addition
+Project 4 implements a full-text search along with autocomplete that immensely improves user experience by making the search on colleg names more convenient and easy. There is now also a mobile version of CollegeConnector in addition to the web application.
+
+### Full-text search and Autocomplete
+As opposed to previous versions of search that uses %LIKE% clauses for substring match, the new full-text search capability increases the range of retrieval and loosens the burden on the part of the users to provide precise/exact query. For instance, if one were in the mood to look up "University of California, Irvine", instead of having to type the exact query, a simple "uni irv" will return the correct result. Additionally, position of tokens in a query matters less, too; a "ir uni" will also fetch the same school, "University of California, Irvine", along with some other results such as "Iris State University", or "University of Iridescence" (despite how glowy the names are, they are made-up schools :/)
+
+### Connect to your college through Android mobile
+For those who do not have a fancy (or just a ordinary) desktop, CollegeConnector now has a mobile app on Android! The app provides the same login functionality and search capabilities, except without the wishlist feature. Nonetheless, it still delivers the information you need: college names, rating, description, location, website, contact information, you name it. So if you're in the mood to check up on some colleges and are nowhere near a PC, CollegeConnector mobile is your friend :)
+
+### Link to the [demo](https://youtu.be/r28v-f3xB8s)
+
+### Contribution
+Up till project 4, the application was crafted with a team of 2. Unfortunately, due to personal differences and difficulties in communications, the collaboration was resolved. Now, there is no more Team BigHead; Team haha_yes now takes reign. That being said, I'm pretty proud that I am able to finish everything in four days. Regardless, I'd like to thank my previous teammate, [Yanran](https://github.com/yanranw1), for her tireless efforts in previous projects, on which I can build the current project.
+
+Again, never forget to thank our dilligent TA, [Xinyuan](https://github.com/aglinxinyuan), for providing the example code on [autocomplete](https://github.com/UCI-Chenli-teaching/cs122b-project4-autocomplete-example) and [Android](https://github.com/UCI-Chenli-teaching/cs122b-project4-android-example), for without him, I'd be too dumb to finish this by myself :)
+
+And no, I didn't get to implement fuzzy search :(
