@@ -11,9 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.movielist.MovieListActivity" />
+<!--        <activity android:name=".ui.movielist.MovieListActivity" />-->
         <activity android:name=".ui.movielist.MainPageActivity" />
         <activity android:name=".ui.movielist.SchoolListActivity" />
+        <activity android:name=".ui.movielist.SingleSchoolActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true">

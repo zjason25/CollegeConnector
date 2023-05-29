@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class SchoolListAdapter extends ArrayAdapter<School> {
     private final ArrayList<School> schools;
 
+
     // View lookup cache
     private static class ViewHolder {
         TextView name;

@@ -44,6 +44,14 @@ public class SchoolsServlet extends HttpServlet {
         String fulltext = request.getParameter("fulltext");
         String autocomplete = request.getParameter("autocomplete");
 
+        System.out.println(school);
+        System.out.println(location);
+        System.out.println(other);
+        System.out.println(order);
+        System.out.println(genre);
+        System.out.println(fulltext);
+        System.out.println(autocomplete);
+
 
         int pagenum =  Integer.parseInt(request.getParameter("pagenum"));
         int whichpage =  Integer.parseInt(request.getParameter("whichpage"));
@@ -58,7 +66,7 @@ public class SchoolsServlet extends HttpServlet {
                 "JOIN genre AS g ON g.id = gis.genre_id\n" +
                 "JOIN location AS l ON l.location_id = sil.location_id\n";
         String sub_query = "";
-
+        System.out.println("1");
         if(school.length()>0&&!school.equals("null")){
             if (fulltext.equals("false")) {
                 if (school.length() == 2 && school.substring(1, 2).equals("_")) {
@@ -82,7 +90,7 @@ public class SchoolsServlet extends HttpServlet {
             }
         }
 
-
+        System.out.println("2");
         if(other.length()>0&&!location.equals("null")){
             if(sub_query.length()==0){
                 sub_query += "WHERE ";
@@ -92,7 +100,7 @@ public class SchoolsServlet extends HttpServlet {
             }
             sub_query += String.format("l.state_full LIKE '%s'",location);
         }
-
+        System.out.println("3");
         if(other.length()>0&&!other.equals("null")){
             if(sub_query.length()==0){
                 sub_query += "WHERE ";
@@ -102,7 +110,7 @@ public class SchoolsServlet extends HttpServlet {
             }
             sub_query += String.format("s.description LIKE '%s'",other);
         }
-
+        System.out.println("4");
         if(genre.length()>0&&!genre.equals("null")){
             if(sub_query.length()==0){
                 sub_query += "WHERE ";
@@ -112,7 +120,7 @@ public class SchoolsServlet extends HttpServlet {
             }
             sub_query += String.format("g.fullname = '%s'",genre);
         }
-
+        System.out.println("5");
         if(order.length()>6&&!order.equals("null")) {
             sub_query += "\nGROUP BY name\n";
             sub_query += order;
@@ -128,7 +136,7 @@ public class SchoolsServlet extends HttpServlet {
                 sub_query += "\nLIMIT 10";
             }
         }
-
+        System.out.println("6");
         sub_query += ";";
         query = query+sub_query;
         // Output stream to STDOUT
@@ -138,7 +146,7 @@ public class SchoolsServlet extends HttpServlet {
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(query);
-
+            System.out.println("7");
             JsonArray jsonArray = new JsonArray();
             JsonObject jsonNum = new JsonObject();
             jsonNum.addProperty("pagenum", pagenum);

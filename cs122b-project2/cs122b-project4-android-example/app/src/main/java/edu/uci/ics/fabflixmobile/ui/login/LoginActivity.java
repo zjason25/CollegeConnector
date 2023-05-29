@@ -14,30 +14,32 @@ import com.android.volley.toolbox.StringRequest;
 import edu.uci.ics.fabflixmobile.data.NetworkManager;
 import edu.uci.ics.fabflixmobile.databinding.ActivityLoginBinding;
 import edu.uci.ics.fabflixmobile.ui.movielist.MainPageActivity;
-import edu.uci.ics.fabflixmobile.ui.movielist.MovieListActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-
     private EditText username;
     private EditText password;
     private TextView message;
-
     /*
-      In Android, localhost is the address of the device or the emulator.
-      To connect to your machine, you need to use the below IP address
+      IP Address
      */
-    private final String host = "10.0.2.2";
-//    private final String host = "50.18.38.152";
-    private final String port = "8080";
-//    private final String port = "8443";
-    private final String domain = "cs122b_project2_login_cart_example_war";
-    private final String baseURL = "http://" + host + ":" + port + "/" + domain;
-//    private final String baseURL = "https://" + host + ":" + port + "/" + domain;
+
+    // local
+//    private final String host = "10.0.2.2";
+//    private final String port = "8080";
+//    private final String domain = "cs122b_project2_login_cart_example_war";
+//    private final String baseURL = "http://" + host + ":" + port + "/" + domain;
+
+    // AWS
+    private final String host = "50.18.38.152";
+
+    private final String port = "8443";
+
+    private final String domain = "cs122b-project2-login-cart-example";
+
+    private final String baseURL = "https://" + host + ":" + port + "/" + domain;
 
     @Override
     // similar to a main function
@@ -67,15 +69,11 @@ public class LoginActivity extends AppCompatActivity {
         // use the same network queue across our application
         // sends a request through a queue managed by a NetworkManager
         final RequestQueue queue = NetworkManager.sharedManager(this).queue;
-        // request type is POST
         final StringRequest loginRequest = new StringRequest(
-                // a POST method to backend Login server
                 Request.Method.GET,
                 baseURL + "/api/login?username=" + username.getText().toString() + "&password=" + password.getText().toString(),
                 // if login successful:
                 response -> {
-                    // TODO: should parse the json response to redirect to appropriate functions
-                    //  upon different response value.
                     try {
                         JSONObject jsonResponse = new JSONObject(response);
                         String status = jsonResponse.getString("status");
@@ -83,13 +81,10 @@ public class LoginActivity extends AppCompatActivity {
                             message.setText("success!");
                             Log.d("login.success", response);
                             //Complete and destroy login activity once successful
-                            // finish current login activity
                             finish();
                             // initialize the activity(page)/destination
-                            // start a new Intent(currentActivity, newActivity)
                             Intent MainPage = new Intent(LoginActivity.this, MainPageActivity.class);
-                            // activate the list page.
-                            // then start the intent
+                            // activate MainPage.
                             startActivity(MainPage);
                         } else {
                             String errorMessage = jsonResponse.getString("message");
@@ -102,7 +97,6 @@ public class LoginActivity extends AppCompatActivity {
                 },
                 // error
                 error -> {
-                    // error
                     Log.d("login.error", error.toString());
                 }) {
         };

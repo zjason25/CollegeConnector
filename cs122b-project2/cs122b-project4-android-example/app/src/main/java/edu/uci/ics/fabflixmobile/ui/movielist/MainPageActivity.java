@@ -19,11 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.widget.ListView;
 import android.widget.Toast;
-
 import edu.uci.ics.fabflixmobile.data.model.School;
-
 import java.util.ArrayList;
 
 
@@ -33,36 +30,41 @@ public class MainPageActivity extends AppCompatActivity {
     private TextView message;
     private Button searchButton;
 
-    /*
-      In Android, localhost is the address of the device or the emulator.
-      To connect to your machine, you need to use the below IP address
-     */
-    private final String host = "10.0.2.2";
-    //    private final String host = "50.18.38.152";
-    private final String port = "8080";
-    //    private final String port = "8443";
-    private final String domain = "cs122b_project2_login_cart_example_war";
-    private final String baseURL = "http://" + host + ":" + port + "/" + domain;
-//    private final String baseURL = "https://" + host + ":" + port + "/" + domain;
+    // local
+//    private final String host = "10.0.2.2";
+//    private final String port = "8080";
+//    private final String domain = "cs122b_project2_login_cart_example_war";
+//    private final String baseURL = "http://" + host + ":" + port + "/" + domain;
+
+    // AWS
+    private final String host = "50.18.38.152";
+
+    private final String port = "8443";
+
+    private final String domain = "cs122b-project2-login-cart-example";
+
+    private final String baseURL = "https://" + host + ":" + port + "/" + domain;
 
     @Override
-    // similar to a main function
-    // a bundle: saves instance state in case the app process is killed
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        ActivityLoginBinding binding = ActivityLoginBinding.inflate(getLayoutInflater());
-        // upon creation, inflate and initialize the layout
-        // gets hold of the layout defined in activity_login.xml
         setContentView(R.layout.activity_search);
 
         search_bar = findViewById(R.id.search_bar);
         message = findViewById(R.id.message);
-        // binds to the button with identifier @+id/button in activity_login.xml
         searchButton = findViewById(R.id.search);
-        //assign a listener to call a function to handle the user request when clicking a button
-        // calls login() whenever user clicks the button
+
         searchButton.setOnClickListener(view -> search());
+    }
+
+    // go back to previous activity on back button
+    @Override
+    public void onBackPressed() {
+        // Call finish() to close the current activity and return to the previous one
+        finish();
+        Intent GoBack = new Intent(MainPageActivity.this, LoginActivity.class);
+        startActivity(GoBack);
     }
 
     @SuppressLint("SetTextI18n")
@@ -72,29 +74,39 @@ public class MainPageActivity extends AppCompatActivity {
         // sends a request through a queue managed by a NetworkManager
         final RequestQueue queue = NetworkManager.sharedManager(this).queue;
         final StringRequest loginRequest = new StringRequest(
-                // a POST method to backend Login server
                 Request.Method.GET,
-                baseURL + "/api/search?school_name=" + search_bar.getText().toString() + "&fulltext=true" + "&pagenum=20" + "&whichpage=0" + "&location=&other=&order=&genre=&autocomplete=",
-                // if login successful:
+                baseURL + "/api/school_list?school=" + search_bar.getText().toString() + "&fulltext=true" + "&pagenum=100" + "&whichpage=0" + "&location=null&other=null&order=null&genre=null&autocomplete=null",
                 response -> {
-                    // TODO: should parse the json response to redirect to appropriate functions
-                    //  upon different response value.
                     try {
+                        // returned server response
                         JSONArray jsonArray = new JSONArray(response);
-                        final ArrayList<School> schools = new ArrayList<>();
-                        JSONObject school = jsonArray.getJSONObject(1);
-                        String name = school.getString("school_name");
-                        if (name != null) {
-                            Toast.makeText(getApplicationContext(), "Search success!", Toast.LENGTH_SHORT).show();
-                            finish();
-                            // initialize the activity(page)/destination
-                            // start a new Intent(currentActivity, newActivity)
-                            Intent SchoolList = new Intent(MainPageActivity.this, SchoolListActivity.class);
-                            SchoolList.putExtra("query", search_bar.getText().toString());
-                            // activate the list page.
-                            // then start the intent
-                            startActivity(SchoolList);
+                        // if empty, return
+                        if (jsonArray.length() < 1) {
+                            message.setText("No matching results");
+                            return;
                         }
+                        final ArrayList<School> schools = new ArrayList<>();
+                        for (int i = 1; i < jsonArray.length(); i++) {
+                            JSONObject school = jsonArray.getJSONObject(i);
+                            String name = school.getString("school_name");
+                            String rating = school.getString("school_rating");
+                            String city = school.getString("school_city");
+                            String state = school.getString("school_state");
+                            String location = city + ", " + state;
+                            String website = school.getString("link_to_website");
+                            String school_genre = school.getString("school_genre");
+                            String telephone = school.getString("telephone");
+                            schools.add(new School(name, rating, location, website, school_genre, telephone));
+                        }
+                            Toast.makeText(getApplicationContext(), "Search success!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), schools.toArray().length + " results returned", Toast.LENGTH_SHORT).show();
+
+                            // start new activity in school_list
+                            finish();
+                            Intent SchoolList = new Intent(MainPageActivity.this, SchoolListActivity.class);
+                            SchoolList.putExtra("school_list", schools);
+                            SchoolList.putExtra("pagenum", 1);
+                            startActivity(SchoolList);
                     } catch (JSONException e) {
                         Log.d("login.error", "Error parsing JSON response: " + e.getMessage());
                         message.setText("No matching results");
@@ -102,12 +114,9 @@ public class MainPageActivity extends AppCompatActivity {
                 },
                 // error
                 error -> {
-                    // error
                     Log.d("login.error", error.toString());
                 }) {
         };
-        // important: queue.add is where the login request is actually sent
-        // the loginRequest is added to the queue after we define it
         queue.add(loginRequest);
     }
 }
