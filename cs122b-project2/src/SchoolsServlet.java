@@ -44,15 +44,6 @@ public class SchoolsServlet extends HttpServlet {
         String fulltext = request.getParameter("fulltext");
         String autocomplete = request.getParameter("autocomplete");
 
-        System.out.println(school);
-        System.out.println(location);
-        System.out.println(other);
-        System.out.println(order);
-        System.out.println(genre);
-        System.out.println(fulltext);
-        System.out.println(autocomplete);
-
-
         int pagenum =  Integer.parseInt(request.getParameter("pagenum"));
         int whichpage =  Integer.parseInt(request.getParameter("whichpage"));
 

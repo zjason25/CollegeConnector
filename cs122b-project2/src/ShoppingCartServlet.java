@@ -46,14 +46,6 @@ public class ShoppingCartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // receives a http POST request: get parameter "item" from shopping-cart.html "input" field
         String remove = request.getParameter("remove");
-//        String school_name = request.getParameter("name");
-//        String genre = request.getParameter("genre");
-//        String state = request.getParameter("state");
-//        String school_id = request.getParameter("id");
-//        String location_id = request.getParameter("location_id");
-//        String SAT = request.getParameter("SAT");
-//        String cost = request.getParameter("cost");
-
 
         String school_id= request.getParameter("school_id");
         String school_name = request.getParameter("school_name");
@@ -61,7 +53,6 @@ public class ShoppingCartServlet extends HttpServlet {
         String link_to_website= request.getParameter("link_to_website");
         String link_to_image= request.getParameter("link_to_image");
         String school_rating= request.getParameter("rating");
-
 
         String address = request.getParameter("address");
         String net_cost = request.getParameter("net_cost");

@@ -117,9 +117,9 @@ And no, I didn't get to implement fuzzy search :(
 
 # Project 5 Addition
 # General
-- #### Team#:
+- #### Team#: haha_yes
 
-- #### Names:
+- #### Names: Jason Zheng
 
 - #### Project 5 Video Demo Link:
 
@@ -128,12 +128,61 @@ And no, I didn't get to implement fuzzy search :(
 - #### Collaborations and Work Distribution:
 
 
-# Connection Pooling
-- #### Include the filename/path of all code/configuration files in GitHub of using JDBC Connection Pooling.
+## Connection Pooling and Prepared Statements
+### Servlets that use them (in /src folder)
+- AddGenre
+- AddLocation
+- AddSchool
+- SingleSchoolServlet
+- SingleLocationServlet
+- SearchServlet
+- SchoolServlet
+- LoginServlet
+- EmployeeLoginServlet
+- CheckoutServlet
 
-- #### Explain how Connection Pooling is utilized in the Fabflix code.
+### Configurations can be found in
+- /META-INF/context.xml
+- /WEB-INF/web.xml
 
-- #### Explain how Connection Pooling works with two backend SQL.
+
+### How connection pooling works
+In Java servlets, connection pooling is a technique used to managed 
+and reuse database connections. Instead of creating a new database 
+connection for each client request, which can be resource-intensive 
+and time-consuming, connection pooling alleviates that overhead by 
+creating a pool of pre-established database connections that can be 
+reused by multiple client request.
+
+In CollegeConnector backend services, we utilize connection pooling to
+handle client request in login, search, and checkout services. Upon starting
+a servlet, a connection pool is created and initialized with a set of parameters
+specified in the `context.xml` file as the following:
+  
+`maxTotal="100" maxIdle="30" maxWaitMillis="10000`
+  
+which allows a maximum of 100 pre-established connections in the pool, a maximum
+of 30 idle connections, and a maximum of 10000 miliseconds of time a client
+will wait for a connection.
+
+### Prepared Statements
+When using connection pooling with prepared statements, the servlet
+first acquires a connection with:
+  
+`try (Connection conn = dataSource.getConnection())`
+
+followed by the creation of a prepared statement with that connection:
+  
+`PreparedStatement statement = conn.prepareStatement(query)`
+  
+where query can be a select or insert statement. The prepared statement is then
+executed with `executeQuery()` and returns a result set. In `SingleSchoolServlet`,
+or `SingleLocationServlet` where the query is a `SELECT` statement, the servlet
+may use the result set to populate a JSON array that will be sent to the front 
+end to later be displayed on a school/location page. Once the servlet is finished 
+using the prepared statements and processing the result set, servlet will proceed
+to releasing the connection back to the connection pool.
+
 
 
 # Master/Slave

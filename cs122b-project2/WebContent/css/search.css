@@ -5,3 +5,15 @@
 .autocomplete-group { padding: 2px 5px; }
 .autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 
+h2 {
+    background-color: dodgerblue;
+    color: white;
+    padding: 20px;
+    font-size:50px;
+    display: flex;
+    margin-top: -10px;
+    margin-left: -10px;
+    margin-right: -10px;
+    font-family: 'Trebuchet MS', cursive;;
+
+}
