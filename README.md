@@ -123,9 +123,6 @@ And no, I didn't get to implement fuzzy search :(
 
 - #### Project 5 Video Demo Link:
 
-- #### Instruction of deployment:
-
-- #### Collaborations and Work Distribution:
 
 
 ## Connection Pooling and Prepared Statements
@@ -154,8 +151,8 @@ and time-consuming, connection pooling alleviates that overhead by
 creating a pool of pre-established database connections that can be 
 reused by multiple client request.
 
-In CollegeConnector backend services, we utilize connection pooling to
-handle client request in login, search, and checkout services. Upon starting
+In CollegeConnector backend services, connection pooling was utilized to
+handle client request in login, search, update, and checkout services. Upon starting
 a servlet, a connection pool is created and initialized with a set of parameters
 specified in the `context.xml` file as the following:
   
@@ -164,6 +161,10 @@ specified in the `context.xml` file as the following:
 which allows a maximum of 100 pre-established connections in the pool, a maximum
 of 30 idle connections, and a maximum of 10000 miliseconds of time a client
 will wait for a connection.
+
+As with the two backend SQL instance, `context.xml` defines two connection pools,
+`jdbc/collegedbMaster` and `jdbc/collegedbSlave` from these two databases. The details
+of how these pools are utilized will be covered in the Master/Slave section
 
 ### Prepared Statements
 When using connection pooling with prepared statements, the servlet
@@ -185,27 +186,38 @@ to releasing the connection back to the connection pool.
 
 
 
-# Master/Slave
-- #### Include the filename/path of all code/configuration files in GitHub of routing queries to Master/Slave SQL.
+## Master/Slave
+CollegeConnector service is scaled with master/slave backend replication to
+handle -- if any -- larger traffic. As mentioned above, there are two connection pools,
+`jdbc/collegedbMaster` and `jdbc/collegedbSlave`. When initializing
+the datasource, each of the servlets listed above makes a context lookup 
+depending on their primary functionality, either it be `SELECT` rows of school data
+as in `SearchServlet`, `SchoolServlet`, or `SingleLocationServlet`, or `INSERT`
+new records as in `AddSchool`, `AddLocation`, and `AddGenre`.
 
-- #### How read/write requests were routed to Master/Slave SQL?
-
+### Traffic Routing
+All servlets that perform updates to the database -- `AddSchool`, `AddLocation`,
+and `AddGenre` -- are manually configured to request connection from the
+`jdbc/collegedbMaster` connection pool, while the ones that only perform read
+operations are configured to request connections equally from `jdbc/collegedbMaster`
+and `jdbc/collegedbSlave`.
 
 # JMeter TS/TJ Time Logs
-- #### Instructions of how to use the `log_processing.*` script to process the JMeter logs.
-
+Each remote instance has a copy of `log_processing.py`. When the jMeter test plan
+finishes executing, simply run the `sudo log_processing.py` in any directory as
+the path to the log_file generated is hard-coded into the script.
 
 # JMeter TS/TJ Time Measurement Report
 
-| **Single-instance Version Test Plan**          | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
-|------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------|--------------|
-| Case 1: HTTP/1 thread                          | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 2: HTTP/10 threads                        | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 3: HTTPS/10 threads                       | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 4: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
+| **Single-instance Version Test Plan**          | **Graph Results Screenshot**     | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis**                                                                          |
+|------------------------------------------------|----------------------------------|----------------------------|-------------------------------------|---------------------------|---------------------------------------------------------------------------------------|
+| Case 1: HTTP/1 thread                          | ![](img/single_1.png/)           | 47                         | 103.7                               | 93.6                      | Rather low query response time and TS/JS                                              |
+| Case 2: HTTP/10 threads                        | ![](img/single_10_thread.png)    | 227                        | 196.4                               | 196.1                     | A noticeable bump in query time, TS and JS                                            |
+| Case 3: HTTPS/10 threads                       | ![](img/single_10_https.png/)    | 224                        | 189.0                               | 188.8                     | All metrics are counterintuitively faster than the HTTP counterpart                   |
+| Case 4: HTTP/10 threads/No connection pooling  | ![](img/single_10_thread_CP.png) | 217                        | 183.9                               | 183.6                     | Ideally this should result in a longer query time due to creation of new connections. |
 
-| **Scaled Version Test Plan**                   | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
-|------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------|--------------|
-| Case 1: HTTP/1 thread                          | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 2: HTTP/10 threads                        | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 3: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
+| **Scaled Version Test Plan**                   | **Graph Results Screenshot**        | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis**                                                                                                                                                                          |
+|------------------------------------------------|-------------------------------------|----------------------------|-------------------------------------|---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Case 1: HTTP/1 thread                          | ![](img/scaled_1_thread.png)        | 49                         | 214.7                               | 210.3                     | ??                                                                                                                                                                                    |
+| Case 2: HTTP/10 threads                        | ![](img/scaled_10_CP.png)           | 252                        | 217.1                               | 216.8                     | ??                                                                                                                                                                                    |
+| Case 3: HTTP/10 threads/No connection pooling  | ![](img/scaled_10_thread_noCP.png/) | 296                        | 219.9                               | 219.6                     | Takes a the longest of all version. It falls under assumption since connection establishment takes long without connection pooling, and the effect multiples as the traffic scales up |

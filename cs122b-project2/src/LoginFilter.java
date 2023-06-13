@@ -43,6 +43,7 @@ public class LoginFilter implements Filter {
          Always allow your own login related requests(html, js, servlet, etc..)
          You might also want to allow some CSS files, etc..
          */
+//        return true;
         return allowedURIs.stream().anyMatch(requestURI.toLowerCase()::endsWith);
     }
 
@@ -53,6 +54,9 @@ public class LoginFilter implements Filter {
         allowedURIs.add("login.css");
         allowedURIs.add("search.css");
         allowedURIs.add("college.png");
+        allowedURIs.add("api/search");
+        allowedURIs.add("school_list.html");
+        allowedURIs.add("api/school_list");
     }
 
     public void destroy() {

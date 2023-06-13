@@ -5,13 +5,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.ServletException;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -25,7 +23,7 @@ public class SchoolsServlet extends HttpServlet {
     private DataSource dataSource;
     public void init(ServletConfig config) {
         try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/collegedb");
+            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/collegedbSlave");
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -35,6 +33,8 @@ public class SchoolsServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        long startTimeTS = System.nanoTime();
+
         response.setContentType("application/json"); // Response mime type
         String school = request.getParameter("school");
         String location = request.getParameter("location");
@@ -43,6 +43,15 @@ public class SchoolsServlet extends HttpServlet {
         String genre = request.getParameter("genre");
         String fulltext = request.getParameter("fulltext");
         String autocomplete = request.getParameter("autocomplete");
+
+//        System.out.println(school);
+//        System.out.println(location);
+//        System.out.println(other);
+//        System.out.println(order);
+//        System.out.println(genre);
+//        System.out.println(fulltext);
+//        System.out.println(autocomplete);
+
 
         int pagenum =  Integer.parseInt(request.getParameter("pagenum"));
         int whichpage =  Integer.parseInt(request.getParameter("whichpage"));
@@ -57,7 +66,7 @@ public class SchoolsServlet extends HttpServlet {
                 "JOIN genre AS g ON g.id = gis.genre_id\n" +
                 "JOIN location AS l ON l.location_id = sil.location_id\n";
         String sub_query = "";
-        System.out.println("1");
+//        System.out.println("1");
         if(school.length()>0&&!school.equals("null")){
             if (fulltext.equals("false")) {
                 if (school.length() == 2 && school.substring(1, 2).equals("_")) {
@@ -81,7 +90,7 @@ public class SchoolsServlet extends HttpServlet {
             }
         }
 
-        System.out.println("2");
+//        System.out.println("2");
         if(other.length()>0&&!location.equals("null")){
             if(sub_query.length()==0){
                 sub_query += "WHERE ";
@@ -91,7 +100,7 @@ public class SchoolsServlet extends HttpServlet {
             }
             sub_query += String.format("l.state_full LIKE '%s'",location);
         }
-        System.out.println("3");
+//        System.out.println("3");
         if(other.length()>0&&!other.equals("null")){
             if(sub_query.length()==0){
                 sub_query += "WHERE ";
@@ -101,7 +110,7 @@ public class SchoolsServlet extends HttpServlet {
             }
             sub_query += String.format("s.description LIKE '%s'",other);
         }
-        System.out.println("4");
+//        System.out.println("4");
         if(genre.length()>0&&!genre.equals("null")){
             if(sub_query.length()==0){
                 sub_query += "WHERE ";
@@ -111,7 +120,7 @@ public class SchoolsServlet extends HttpServlet {
             }
             sub_query += String.format("g.fullname = '%s'",genre);
         }
-        System.out.println("5");
+//        System.out.println("5");
         if(order.length()>6&&!order.equals("null")) {
             sub_query += "\nGROUP BY name\n";
             sub_query += order;
@@ -127,17 +136,21 @@ public class SchoolsServlet extends HttpServlet {
                 sub_query += "\nLIMIT 10";
             }
         }
-        System.out.println("6");
+//        System.out.println("6");
         sub_query += ";";
         query = query+sub_query;
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
         // Get a connection from dataSource and let resource manager close the connection after usage.
+        long startTimeTJ = System.nanoTime();
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(query);
-            System.out.println("7");
+            long endTimeTJ = System.nanoTime();
+            long elapsedTimeTJ = endTimeTJ - startTimeTJ;
+//            System.out.println(elapsedTimeTJ + " seconds passed to get connection");
+//            System.out.println("7");
             JsonArray jsonArray = new JsonArray();
             JsonObject jsonNum = new JsonObject();
             jsonNum.addProperty("pagenum", pagenum);
@@ -195,6 +208,23 @@ public class SchoolsServlet extends HttpServlet {
             out.write(jsonArray.toString());
             // Set response status to 200 (OK)
             response.setStatus(200);
+            long endTimeTS = System.nanoTime();
+            long elapsedTimeTS = endTimeTS - startTimeTS;
+
+            String contextPath = request.getServletContext().getRealPath("/");
+            String xmlFilePath=contextPath+"\\log.txt";
+            System.out.println(xmlFilePath);
+            File myfile = new File(xmlFilePath);
+            myfile.createNewFile();
+            try {
+                FileWriter fileWriter = new FileWriter(myfile, true); // Open the file in append mode
+                // Write your log message
+                fileWriter.write("TS" + elapsedTimeTS + ", ");
+                fileWriter.write("TJ" + elapsedTimeTJ + "\n");
+                fileWriter.close(); // Close the file
+            } catch (IOException e) {
+                e.printStackTrace(); // Handle any exceptions
+            }
 
         } catch (Exception e) {
             // Write error message JSON object to output

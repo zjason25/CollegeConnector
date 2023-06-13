@@ -28,7 +28,7 @@ public class CheckoutServlet extends HttpServlet {
 
     public void init(ServletConfig config) {
         try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/collegedb");
+            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/collegedbMaster");
         } catch (NamingException e) {
             e.printStackTrace();
         }
