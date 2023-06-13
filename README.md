@@ -121,7 +121,7 @@ And no, I didn't get to implement fuzzy search :(
 
 - #### Names: Jason Zheng
 
-- #### Project 5 Video Demo Link:
+- #### Project 5 Video Demo [Link](https://youtu.be/fU0mhFkrDIs)
 
 
 
